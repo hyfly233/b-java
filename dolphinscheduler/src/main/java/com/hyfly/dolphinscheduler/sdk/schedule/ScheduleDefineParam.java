@@ -1,6 +1,9 @@
 package com.hyfly.dolphinscheduler.sdk.schedule;
 
 import com.alibaba.fastjson2.JSONObject;
+import com.hyfly.dolphinscheduler.sdk.constants.FailureStrategy;
+import com.hyfly.dolphinscheduler.sdk.constants.Priority;
+import com.hyfly.dolphinscheduler.sdk.constants.WarningType;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -10,11 +13,11 @@ public class ScheduleDefineParam {
 
     private Schedule schedule;
 
-    private String failureStrategy = "END";
+    private String failureStrategy = FailureStrategy.END;
 
-    private String warningType = "NONE";
+    private String warningType = WarningType.NONE;
 
-    private String processInstancePriority = "MEDIUM";
+    private String processInstancePriority = Priority.MEDIUM;
 
     private String warningGroupId = "0";
 
@@ -23,6 +26,8 @@ public class ScheduleDefineParam {
     private String environmentCode = "";
 
     private Long processDefinitionCode;
+
+    private String tenantCode;
 
     @Data
     @Accessors(chain = true)
