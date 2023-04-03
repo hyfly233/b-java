@@ -1,7 +1,6 @@
 package com.hyfly.asm02;
 
 import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
@@ -44,9 +43,6 @@ public class MyClassVisitor extends ClassVisitor {
             // 在方法返回处插入代码
             if ((opcode >= Opcodes.IRETURN && opcode <= Opcodes.RETURN) || opcode == Opcodes.ATHROW) {
                 mv.visitMethodInsn(Opcodes.INVOKESTATIC, "com/hyfly/asm02/MyTimeLogger", "end", "()V", false);
-                Label label7 = new Label();
-                mv.visitLabel(label7);
-                mv.visitLineNumber(22, label7);
             }
 
             super.visitInsn(opcode);
