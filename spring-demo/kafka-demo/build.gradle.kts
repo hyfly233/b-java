@@ -13,6 +13,8 @@ dependencies {
     // logging
     implementation("org.springframework.boot:spring-boot-starter-logging")
 
+    implementation("com.deepoove:poi-tl:1.12.2")
+
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
 }
