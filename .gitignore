@@ -46,3 +46,5 @@ bin/
 mvnw*
 
 **/target/
+
+outputs
