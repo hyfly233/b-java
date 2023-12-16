@@ -2,15 +2,12 @@ package com.hyfly.poitl;
 
 import com.deepoove.poi.XWPFTemplate;
 import com.deepoove.poi.config.Configure;
-import com.deepoove.poi.data.Tables;
-import com.deepoove.poi.data.style.BorderStyle;
 import com.deepoove.poi.plugin.table.LoopRowTableRenderPolicy;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.io.FileOutputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -22,8 +19,7 @@ public class PoitlDemoApplication {
         SpringApplication.run(PoitlDemoApplication.class, args);
 
         try {
-//            test();
-            test2();
+            test();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -32,28 +28,14 @@ public class PoitlDemoApplication {
     public static void test() throws Exception {
         // 获取 resource 目录下的 template.docx 文件路径
         String resourcePath = Objects.requireNonNull(PoitlDemoApplication.class.getClassLoader().getResource("template.docx")).getPath();
-        XWPFTemplate template = XWPFTemplate.compile(resourcePath).render(getTemplateData());
-        template.writeAndClose(new FileOutputStream("outputs/output.docx"));
-    }
-
-    public static void test2() throws Exception {
-        // 获取 resource 目录下的 template.docx 文件路径
-        String resourcePath = Objects.requireNonNull(PoitlDemoApplication.class.getClassLoader().getResource("template.docx")).getPath();
 
         LoopRowTableRenderPolicy policy = new LoopRowTableRenderPolicy();
 
-        Configure config = Configure.builder().bind("area_table", policy).build();
+        Configure config = Configure.builder()
+                .bind("area_table", policy)
+                .build();
 
-        XWPFTemplate template = XWPFTemplate.compile(resourcePath, config).render(
-                new HashMap<String, Object>() {{
-                    put("testText", "Hi, poi-tl Word模板引擎");
-                    put("testSingleTable", Tables.of(new String[][]{
-                            new String[]{"00", "01"},
-                            new String[]{"10", "11"}
-                    }).border(BorderStyle.DEFAULT).create());
-                    put("area_table", getAreaTableDataList());
-//                    put("teatArea", getTemplateData().getTestArea());
-                }});
+        XWPFTemplate template = XWPFTemplate.compile(resourcePath, config).render(getTemplateData());
         template.writeAndClose(new FileOutputStream("outputs/output.docx"));
     }
 
@@ -74,9 +56,9 @@ public class PoitlDemoApplication {
         data.setAreaTable(getAreaTableDataList());
 
         List<TestAreaData> testAreaDataList = new ArrayList<>();
-        testAreaDataList.add(new TestAreaData().setAreaTableName("标题1").setAreaTable(getAreaTableDataList()));
-        testAreaDataList.add(new TestAreaData().setAreaTableName("标题2").setAreaTable(getAreaTableDataList()));
-        testAreaDataList.add(new TestAreaData().setAreaTableName("标题3").setAreaTable(getAreaTableDataList()));
+        testAreaDataList.add(new TestAreaData().setAreaTableName("TestArea标题1").setAreaTable(getAreaTableDataList()));
+        testAreaDataList.add(new TestAreaData().setAreaTableName("TestArea标题2").setAreaTable(getAreaTableDataList()));
+        testAreaDataList.add(new TestAreaData().setAreaTableName("TestArea标题3").setAreaTable(getAreaTableDataList()));
 
         data.setTestArea(testAreaDataList);
 

@@ -1,5 +1,6 @@
 package com.hyfly.poitl;
 
+import com.deepoove.poi.expression.Name;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -11,6 +12,7 @@ public class TemplateData {
 
     private String testText;
 
+    @Name("area_table")
     private List<AreaTableData> areaTable;
 
     private List<TestAreaData> testArea;
