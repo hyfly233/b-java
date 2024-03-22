@@ -1,4 +1,4 @@
-package com.hyfly.asm01;
+package com.hyfly.asm.test02;
 
 public class TestTargetClass {
     public static void main(String[] args) {

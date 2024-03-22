@@ -1,4 +1,4 @@
-package com.hyfly.asm02;
+package com.hyfly.asm.test02;
 
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;

@@ -1,4 +1,4 @@
-package com.hyfly.asm01;
+package com.hyfly.asm.test01;
 
 import org.objectweb.asm.*;
 

@@ -1,6 +1,9 @@
-package com.hyfly.asm02;
+package com.hyfly.asm.test01;
 
 /**
+ * java -cp .:../lib/asm-9.1.jar:../lib/asm-util-9.1.jar org.objectweb.asm.util.ASMifier com.hyfly.asm.TargetClass
+ * idea plugin: ASM Bytecode Outline / ASM Bytecode Viewer
+ *
  * @author flyhy
  */
 public class TargetClass {

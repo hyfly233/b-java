@@ -1,4 +1,4 @@
-package com.hyfly.asm02;
+package com.hyfly.asm.test02;
 
 public class MyTimeLogger {
     private static long startTime = 0L;
