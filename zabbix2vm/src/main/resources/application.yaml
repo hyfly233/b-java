@@ -16,7 +16,7 @@ spring:
 
 # victoriaMetrics 配置
 victoriaMetrics:
-  ip: 10.247.53.211
+  ip: 127.0.0.1
   port:
     base: 8428
     opentsdb: 4242
