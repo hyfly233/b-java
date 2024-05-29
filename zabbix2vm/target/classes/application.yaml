@@ -6,7 +6,7 @@ spring:
     name: zabbix2vm
 
   kafka:
-    bootstrap-servers: 127.0.0.1:9092
+    bootstrap-servers: 10.247.53.2:9092
     consumer:
       group-id: kafka-test
       auto-offset-reset: latest

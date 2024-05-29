@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/zabbix")
@@ -17,7 +18,7 @@ public class ZabbixController {
     private IZabbixApiService zabbixService;
 
     @GetMapping("/hostInfos")
-    public List<ZabbixHostDetailBo> getHostInfos() {
+    public Map<String, List < ZabbixHostDetailBo>> getHostInfos() {
         return zabbixService.getHostInfos();
     }
 }

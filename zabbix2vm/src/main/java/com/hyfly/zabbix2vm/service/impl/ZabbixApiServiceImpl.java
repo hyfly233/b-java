@@ -20,9 +20,7 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -118,8 +116,8 @@ public class ZabbixApiServiceImpl implements IZabbixApiService {
     }
 
     @Override
-    public List<ZabbixHostDetailBo> getHostInfos() {
-        List<ZabbixHostDetailBo> infos = new ArrayList<>();
+    public Map<String, List<ZabbixHostDetailBo>> getHostInfos() {
+        Map<String, List<ZabbixHostDetailBo>> map = new HashMap<>();
 
         List<ZabbixConfigPo> zabbixSourceConfigs = zabbixConfigService.listAll();
 
@@ -140,7 +138,8 @@ public class ZabbixApiServiceImpl implements IZabbixApiService {
                 auth = this.userLogin(url, reqId + "_1", username, password);
 
                 if (auth != null) {
-                    infos.addAll(this.getHostDetailInfos(url, reqId + "_2", auth));
+                    List<ZabbixHostDetailBo> infos = this.getHostDetailInfos(url, reqId + "_2", auth);
+                    map.put(url, infos);
                 }
 
             } catch (BaseBootException e) {
@@ -156,38 +155,44 @@ public class ZabbixApiServiceImpl implements IZabbixApiService {
             }
         }
 
-        return infos;
+        return map;
     }
 
     @Override
-    public ZabbixItemInfo getItemInfoByItemId(Long itemId) {
+    public ZabbixItemInfo getItemInfoByItemId(String url, Long itemId) {
 
         // 将数据存入缓存中
-        List<ZabbixHostDetailBo> infos = this.getHostInfos();
+        Map<String, List<ZabbixHostDetailBo>> infoMap = this.getHostInfos();
 
-        for (ZabbixHostDetailBo info : infos) {
-            if (info.getAvailable() == 0) {
-                continue;
-            }
+        List<ZabbixHostDetailBo> infos = infoMap.get(url);
 
-            List<ZabbixInterfaceBo> interfaces = info.getInterfaces();
-            ZabbixInterfaceBo interfaceBo = null;
-
-            for (ZabbixInterfaceBo anInterface : interfaces) {
-                if (anInterface.getMain() && anInterface.getType() == 1) {
-                    interfaceBo = anInterface;
-                    break;
+        if (infos != null) {
+            for (ZabbixHostDetailBo info : infos) {
+                if (info.getAvailable() == 0) {
+                    continue;
                 }
+
+                List<ZabbixInterfaceBo> interfaces = info.getInterfaces();
+                ZabbixInterfaceBo interfaceBo = null;
+
+                for (ZabbixInterfaceBo anInterface : interfaces) {
+                    if (anInterface.getMain() && anInterface.getType() == 1) {
+                        interfaceBo = anInterface;
+                        break;
+                    }
+                }
+
+                if (interfaceBo == null) {
+                    continue;
+                }
+
+                List<ZabbixItemBo> items = info.getItems();
+
+
             }
-
-            if (interfaceBo == null) {
-                continue;
-            }
-
-            List<ZabbixItemBo> items = info.getItems();
-
-
         }
+
+
 
 
         return null;
@@ -202,7 +207,6 @@ public class ZabbixApiServiceImpl implements IZabbixApiService {
         }});
         return headers;
     }
-
 
     // ----------- Login ------------
 
@@ -259,7 +263,7 @@ public class ZabbixApiServiceImpl implements IZabbixApiService {
         JSONObject jsonObject = this.baseHostGetReq(reqId, auth);
 
         jsonObject.put("params", new JSONObject() {{
-            put("output", new String[]{"hostid", "host", "name"});
+            put("output", new String[]{"hostid", "host", "name", "available", "description"});
             put("selectInterfaces", new String[]{"interfaceid", "main", "type", "useip", "ip", "dns", "port"});
             put("selectItems", new String[]{"itemid", "name", "key_", "value_type", "units", "description"});
         }});

@@ -6,6 +6,7 @@ import com.hyfly.zabbix2vm.entity.bo.ZabbixHostDetailBo;
 import com.hyfly.zabbix2vm.entity.po.ZabbixItemInfo;
 
 import java.util.List;
+import java.util.Map;
 
 public interface IZabbixApiService {
 
@@ -43,15 +44,16 @@ public interface IZabbixApiService {
     /**
      * 获取主机详情信息列表、包括 interface、item 等
      *
-     * @return List<ZabbixHostDetailBo>
+     * @return Map<String, List < ZabbixHostDetailBo>>
      */
-    List<ZabbixHostDetailBo> getHostInfos();
+    Map<String, List < ZabbixHostDetailBo>> getHostInfos();
 
     /**
      * 根据 itemId 获取 item 信息
      *
+     * @param  url zabbix server url
      * @param itemId zabbix item id
      * @return ZabbixItemInfo
      */
-    ZabbixItemInfo getItemInfoByItemId(Long itemId);
+    ZabbixItemInfo getItemInfoByItemId(String url, Long itemId);
 }

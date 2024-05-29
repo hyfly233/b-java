@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-public class VmClientImpl implements IVmClientService {
+public class VmClientServiceImpl implements IVmClientService {
 
     public static final int MAX_POINTS = 30000;
 
@@ -71,7 +71,7 @@ public class VmClientImpl implements IVmClientService {
     @Override
     public VmQueryRangeResponse queryRange(MonQueryRequest request) {
 
-//        this.validateMaxPointsPerSeries(request.getStart(), request.getEnd(), request.getStep());
+        this.validateMaxPointsPerSeries(request.getStart(), request.getEnd(), request.getStep());
 
         String metricName = request.getMetricName();
         Map<String, String> tags = request.getTags();
