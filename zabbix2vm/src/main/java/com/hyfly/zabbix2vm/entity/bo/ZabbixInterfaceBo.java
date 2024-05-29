@@ -7,7 +7,7 @@ import lombok.Data;
 public class ZabbixInterfaceBo {
 
     @JSONField(name = "interfaceid")
-    private Integer interfaceId;
+    private Long interfaceId;
 
     @JSONField(name = "main")
     private Boolean main;

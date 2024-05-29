@@ -33,6 +33,12 @@ public class ZabbixApiServiceImpl implements IZabbixApiService {
     @Autowired
     private IZabbixConfigService zabbixConfigService;
 
+    Cache<String, ZabbixItemInfo> zabbixCache = Caffeine.newBuilder()
+            .initialCapacity(30_000)
+            .expireAfterWrite(2, TimeUnit.MINUTES)
+            .expireAfterAccess(2, TimeUnit.MINUTES)
+            .build();
+
     @Override
     public String userLogin(String url, String reqId, String username, String password) {
         try {
@@ -161,18 +167,29 @@ public class ZabbixApiServiceImpl implements IZabbixApiService {
     @Override
     public ZabbixItemInfo getItemInfoByItemId(String url, Long itemId) {
 
+        ZabbixItemInfo info = zabbixCache.getIfPresent(this.getId(url, itemId));
+
+        if (info != null) {
+            return info;
+        }
+
         // 将数据存入缓存中
+        Map<String, ZabbixItemInfo> map = new HashMap<>();
+
         Map<String, List<ZabbixHostDetailBo>> infoMap = this.getHostInfos();
+        Set<Map.Entry<String, List<ZabbixHostDetailBo>>> entrySet = infoMap.entrySet();
 
-        List<ZabbixHostDetailBo> infos = infoMap.get(url);
+        for (Map.Entry<String, List<ZabbixHostDetailBo>> entry : entrySet) {
+            String zabbixServerUrl = entry.getKey();
 
-        if (infos != null) {
-            for (ZabbixHostDetailBo info : infos) {
-                if (info.getAvailable() == 0) {
+            List<ZabbixHostDetailBo> infos = entry.getValue();
+
+            for (ZabbixHostDetailBo bo : infos) {
+                if (bo.getAvailable() == 0) {
                     continue;
                 }
 
-                List<ZabbixInterfaceBo> interfaces = info.getInterfaces();
+                List<ZabbixInterfaceBo> interfaces = bo.getInterfaces();
                 ZabbixInterfaceBo interfaceBo = null;
 
                 for (ZabbixInterfaceBo anInterface : interfaces) {
@@ -186,23 +203,40 @@ public class ZabbixApiServiceImpl implements IZabbixApiService {
                     continue;
                 }
 
-                List<ZabbixItemBo> items = info.getItems();
+                List<ZabbixItemBo> items = bo.getItems();
 
+                for (ZabbixItemBo item : items) {
+                    ZabbixItemInfo build = ZabbixItemInfo.builder()
+                            .serverIp(zabbixServerUrl)
+                            .hostId(bo.getHostId())
+                            .hostName(bo.getName())
+                            .ip(interfaceBo.getIp())
+                            .dns(interfaceBo.getDns())
+                            .itemId(item.getItemId())
+                            .itemName(item.getName())
+                            .itemKey(item.getKey())
+                            .itemUnits(item.getUnits())
+                            .build();
 
+                    map.put(this.getId(zabbixServerUrl, item.getItemId()), build);
+                }
             }
         }
 
+        zabbixCache.putAll(map);
 
+        return zabbixCache.getIfPresent(this.getId(url, itemId));
+    }
 
-
-        return null;
+    private String getId(String url, Long itemId) {
+        return url + "_" + itemId;
     }
 
     // ----------- Header ------------
     private HttpHeaders getHeaders() {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setAccept(new ArrayList<MediaType>() {{
+        headers.setAccept(new ArrayList<>() {{
             add(MediaType.APPLICATION_JSON);
         }});
         return headers;

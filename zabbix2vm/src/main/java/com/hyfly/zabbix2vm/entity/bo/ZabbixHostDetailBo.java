@@ -9,7 +9,7 @@ import java.util.List;
 public class ZabbixHostDetailBo {
 
     @JSONField(name = "hostid")
-    private Integer hostId;
+    private Long hostId;
 
     @JSONField(name = "host")
     private String host;

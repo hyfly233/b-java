@@ -7,7 +7,7 @@ import lombok.Data;
 public class ZabbixItemBo {
 
     @JSONField(name = "itemid")
-    private Integer itemId;
+    private Long itemId;
 
     @JSONField(name = "name")
     private String name;
