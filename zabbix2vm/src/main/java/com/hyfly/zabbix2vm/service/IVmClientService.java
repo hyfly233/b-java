@@ -1,8 +1,10 @@
 package com.hyfly.zabbix2vm.service;
 
 import com.hyfly.zabbix2vm.entity.bo.OpentsdbMetric;
-import com.hyfly.zabbix2vm.entity.bo.VmQueryRangeResponse;
-import com.hyfly.zabbix2vm.entity.resp.MonQueryRequest;
+import com.hyfly.zabbix2vm.entity.resp.VmQueryRangeResp;
+import com.hyfly.zabbix2vm.entity.req.SumQueryReq;
+import com.hyfly.zabbix2vm.entity.req.MonQueryReq;
+import com.hyfly.zabbix2vm.entity.vo.SumQueryVo;
 
 import java.util.List;
 
@@ -12,5 +14,7 @@ public interface IVmClientService {
 
     boolean opentsdbPutBatch(List<OpentsdbMetric> metrics);
 
-    VmQueryRangeResponse queryRange(MonQueryRequest request);
+    VmQueryRangeResp queryRange(MonQueryReq req);
+
+    SumQueryVo sumQueryRange(SumQueryReq req);
 }

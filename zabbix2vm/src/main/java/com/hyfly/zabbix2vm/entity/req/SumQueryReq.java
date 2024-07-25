@@ -1,4 +1,4 @@
-package com.hyfly.zabbix2vm.entity.resp;
+package com.hyfly.zabbix2vm.entity.req;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import java.util.Map;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MonQueryRequest {
+public class SumQueryReq {
 
     /**
      * 监控项指标名称(base64编码)

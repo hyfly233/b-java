@@ -1,13 +1,18 @@
 package com.hyfly.zabbix2vm.service.impl;
 
 import com.alibaba.fastjson2.JSONObject;
+import com.hyfly.zabbix2vm.entity.bo.MetricResult;
 import com.hyfly.zabbix2vm.entity.bo.OpentsdbMetric;
-import com.hyfly.zabbix2vm.entity.bo.VmQueryRangeResponse;
-import com.hyfly.zabbix2vm.entity.resp.MonQueryRequest;
+import com.hyfly.zabbix2vm.entity.bo.VmQueryData;
+import com.hyfly.zabbix2vm.entity.req.MonQueryReq;
+import com.hyfly.zabbix2vm.entity.req.SumQueryReq;
+import com.hyfly.zabbix2vm.entity.resp.VmQueryRangeResp;
+import com.hyfly.zabbix2vm.entity.vo.SumQueryVo;
 import com.hyfly.zabbix2vm.service.IVmClientService;
 import com.hyfly.zabbix2vm.util.DataTransform;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -69,15 +74,15 @@ public class VmClientServiceImpl implements IVmClientService {
     }
 
     @Override
-    public VmQueryRangeResponse queryRange(MonQueryRequest request) {
+    public VmQueryRangeResp queryRange(MonQueryReq req) {
 
-        this.validateMaxPointsPerSeries(request.getStart(), request.getEnd(), request.getStep());
+        this.validateMaxPointsPerSeries(req.getStart(), req.getEnd(), req.getStep());
 
-        String metricName = request.getMetricName();
-        Map<String, String> tags = request.getTags();
+        String metricName = req.getMetricName();
+        Map<String, String> tags = req.getTags();
 
-        if ((StringUtils.isBlank(request.getMetricName()) && request.getTags() == null) ||
-                (StringUtils.isBlank(request.getMetricName()) && request.getTags().isEmpty())) {
+        if ((StringUtils.isBlank(req.getMetricName()) && req.getTags() == null) ||
+                (StringUtils.isBlank(req.getMetricName()) && req.getTags().isEmpty())) {
             String errMsg = "监控数据查询参数错误";
 
             log.error(errMsg);
@@ -95,6 +100,74 @@ public class VmClientServiceImpl implements IVmClientService {
             query += collect;
         }
 
+        if (StringUtils.isBlank(query)) {
+            String errMsg = "查询数据指标名称不能为空";
+
+            log.error(errMsg);
+            throw new RuntimeException(errMsg);
+        }
+
+        return this.baseQueryRange(query, req.getStart(), req.getEnd(), req.getStep());
+    }
+
+    @Override
+    public SumQueryVo sumQueryRange(SumQueryReq req) {
+
+        String metricName = req.getMetricName();
+
+        String query = StringUtils.isNoneBlank(metricName) ? metricName : "";
+
+        Map<String, String> tags = req.getTags();
+
+        if (tags != null && !tags.isEmpty()) {
+            String collect = tags.entrySet()
+                    .stream()
+                    .map(entry -> entry.getKey() + "=\"" + entry.getValue() + "\"")
+                    .collect(Collectors.joining(",", "{", "}"));
+
+            query += collect;
+        }
+
+        if (StringUtils.isBlank(query)) {
+            String errMsg = "查询数据指标名称不能为空";
+
+            log.error(errMsg);
+            throw new RuntimeException(errMsg);
+        }
+
+
+        query = "sum(" + query + ")";
+
+        VmQueryRangeResp resp = this.baseQueryRange(query, req.getStart(), req.getEnd(), req.getStep());
+        VmQueryData data = resp.getData();
+        List<MetricResult> result = data.getResult();
+
+        Double sum = 0.0;
+
+        SumQueryVo vo = new SumQueryVo();
+
+        if (result != null && result.size() == 1) {
+            MetricResult metricResult = result.get(0);
+            List<List<String>> values = metricResult.getValues();
+
+            if (values != null && !values.isEmpty()) {
+                for (List<String> value : values) {
+                    String s = value.get(1);
+
+                    if (NumberUtils.isCreatable(s)) {
+                        sum += Double.parseDouble(s);
+                    }
+                }
+            }
+
+            vo.setSum(String.valueOf(sum))
+                    .setValues(values);
+        }
+
+        return vo;
+    }
+
+    private VmQueryRangeResp baseQueryRange(String query, Long start, Long end, Long step) {
         String url = "http://" + VM_IP + ":" + VM_PORT_BASE + "/api/v1/query_range";
 
         HttpHeaders headers = new HttpHeaders();
@@ -103,16 +176,16 @@ public class VmClientServiceImpl implements IVmClientService {
         MultiValueMap<String, Object> param = new LinkedMultiValueMap<>();
         param.add("query", query);
 
-        if (request.getStart() != null) {
-            param.add("start", request.getStart());
+        if (start != null) {
+            param.add("start", start);
         }
 
-        if (request.getEnd() != null) {
-            param.add("end", request.getEnd());
+        if (end != null) {
+            param.add("end", end);
         }
 
-        if (request.getStep() != null) {
-            param.add("step", request.getStep());
+        if (step != null) {
+            param.add("step", step);
         }
 
         ResponseEntity<String> exchange = rt.exchange(url, HttpMethod.POST, new HttpEntity<>(param, headers), String.class);
@@ -120,7 +193,7 @@ public class VmClientServiceImpl implements IVmClientService {
         if (exchange.getStatusCode().is2xxSuccessful()) {
             String body = exchange.getBody();
 
-            return JSONObject.parseObject(body, VmQueryRangeResponse.class);
+            return JSONObject.parseObject(body, VmQueryRangeResp.class);
         } else {
             String errMsg = "从VM查询监控数据失败: " + exchange.getBody();
 

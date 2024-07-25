@@ -17,6 +17,7 @@ public class MetricResult {
 
     @JSONField(name = "values")
     List<List<String>> values;
+
     @JSONField(name = "metric")
     private Map<String, String> metric;
 }
