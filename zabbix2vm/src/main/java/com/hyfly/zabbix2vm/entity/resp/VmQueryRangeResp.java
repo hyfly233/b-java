@@ -18,4 +18,8 @@ public class VmQueryRangeResp {
 
     @JSONField(name = "data")
     private VmQueryData data;
+
+    public boolean isSuccess() {
+        return "success".equals(status);
+    }
 }
