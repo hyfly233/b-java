@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.hyfly</groupId>
-    <artifactId>doristest</artifactId>
+    <artifactId>doris-demo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>doristest</name>
-    <description>doristest</description>
+    <name>doris-demo</name>
+    <description>doris-demo</description>
     <url/>
     <licenses>
         <license/>

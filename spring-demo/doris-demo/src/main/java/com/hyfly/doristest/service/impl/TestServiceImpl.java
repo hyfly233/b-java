@@ -65,7 +65,8 @@ public class TestServiceImpl implements ITestService {
     }
 
     public void loadJson(String jsonData) throws Exception {
-        String url = "";
+//        String url = ";
+        String url = "http://10.247.53.18:8035/api/demo/example_tbl/_stream_load";
 
 
         try (CloseableHttpClient client = httpClientBuilder.build()) {
