@@ -17,10 +17,17 @@ public class TestController {
         this.providerService = providerService;
     }
 
-    @PostMapping(path = "/inputTopic")
-    public void test() {
+    @PostMapping(path = "/inputTopic01")
+    public void test01() {
         String uuid = UUID.randomUUID().toString();
-        log.info("uuid: {}", uuid);
-        providerService.sendMsgCallback("inputTopic", uuid + " msg from inputTopic");
+        log.info("uuid01: {}", uuid);
+        providerService.sendMsgCallback("inputTopic01", uuid + " msg from inputTopic01");
+    }
+
+    @PostMapping(path = "/inputTopic02")
+    public void test02() {
+        String uuid = UUID.randomUUID().toString();
+        log.info("uuid02: {}", uuid);
+        providerService.sendMsgCallback("inputTopic02", "msg from inputTopic02 " + uuid);
     }
 }

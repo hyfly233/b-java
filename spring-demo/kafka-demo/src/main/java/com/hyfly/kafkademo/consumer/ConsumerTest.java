@@ -12,24 +12,36 @@ import java.util.List;
 @Service
 public class ConsumerTest {
 
-//    @KafkaListener(topics = "inputTopic")
+//    @KafkaListener(topics = "inputTopic01")
 //    public void streamInputTopic(List<ConsumerRecord<String, String>> records, Acknowledgment ack) {
 //
 //        if (records != null) {
 //            for (ConsumerRecord<String, String> record : records) {
-//                log.info("inputTopic record: {}", record);
+//                log.info("inputTopic01 record: {}", record);
 //            }
 //
 //            ack.acknowledge();
 //        }
 //    }
 
-    @KafkaListener(topics = "outputTopic")
-    public void streamOutputTopic(List<ConsumerRecord<String, String>> records, Acknowledgment ack) {
+    @KafkaListener(topics = "outputTopic01")
+    public void streamOutputTopic01(List<ConsumerRecord<String, String>> records, Acknowledgment ack) {
 
         if (records != null) {
             for (ConsumerRecord<String, String> record : records) {
-                log.info("outputTopic record: {}", record);
+                log.info("outputTopic01 record: {}", record);
+            }
+
+            ack.acknowledge();
+        }
+    }
+
+    @KafkaListener(topics = "outputTopic02")
+    public void streamOutputTopic02(List<ConsumerRecord<String, String>> records, Acknowledgment ack) {
+
+        if (records != null) {
+            for (ConsumerRecord<String, String> record : records) {
+                log.info("outputTopic02 record: {}", record);
             }
 
             ack.acknowledge();

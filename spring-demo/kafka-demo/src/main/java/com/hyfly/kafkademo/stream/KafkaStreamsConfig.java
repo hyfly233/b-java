@@ -5,6 +5,7 @@ import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.kstream.KStream;
+import org.apache.kafka.streams.kstream.Produced;
 import org.apache.kafka.streams.kstream.ValueMapper;
 import org.apache.kafka.streams.processor.WallclockTimestampExtractor;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,12 +40,22 @@ public class KafkaStreamsConfig {
         return new KafkaStreamsConfiguration(props);
     }
 
-    @Bean
-    public KStream<String, String> kStream(final StreamsBuilder builder) {
-        KStream<String, String> stream = builder.stream("inputTopic");
+
+    @Bean(name = "kStream01")
+    public KStream<String, String> kStream01(final StreamsBuilder streamsBuilder) {
+        KStream<String, String> stream = streamsBuilder.stream("inputTopic01");
 
         stream.mapValues((ValueMapper<String, String>) String::toUpperCase)
-                .to("outputTopic");
+                .to("outputTopic01", Produced.with(Serdes.String(), Serdes.String()));
+        return stream;
+    }
+
+    @Bean(name = "kStream02")
+    public KStream<String, String> kStream02(final StreamsBuilder streamsBuilder) {
+        KStream<String, String> stream = streamsBuilder.stream("inputTopic02");
+
+        stream.mapValues((ValueMapper<String, String>) String::toUpperCase)
+                .to("outputTopic02");
         return stream;
     }
 }
