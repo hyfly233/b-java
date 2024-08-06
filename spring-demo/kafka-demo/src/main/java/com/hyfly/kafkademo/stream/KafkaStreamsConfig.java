@@ -42,20 +42,24 @@ public class KafkaStreamsConfig {
 
 
     @Bean(name = "kStream01")
-    public KStream<String, String> kStream01(final StreamsBuilder streamsBuilder) {
-        KStream<String, String> stream = streamsBuilder.stream("inputTopic01");
+    public KStream<String, String> kStream01(final StreamsBuilder streamsBuilder,
+                                             @Value("${streams.topic.test01.input}") String inputTopic,
+                                             @Value("${streams.topic.test01.output}") String outputTopic) {
+        KStream<String, String> stream = streamsBuilder.stream(inputTopic);
 
         stream.mapValues((ValueMapper<String, String>) String::toUpperCase)
-                .to("outputTopic01", Produced.with(Serdes.String(), Serdes.String()));
+                .to(outputTopic, Produced.with(Serdes.String(), Serdes.String()));
         return stream;
     }
 
     @Bean(name = "kStream02")
-    public KStream<String, String> kStream02(final StreamsBuilder streamsBuilder) {
-        KStream<String, String> stream = streamsBuilder.stream("inputTopic02");
+    public KStream<String, String> kStream02(final StreamsBuilder streamsBuilder,
+                                             @Value("${streams.topic.test02.input}") String inputTopic,
+                                             @Value("${streams.topic.test02.output}") String outputTopic) {
+        KStream<String, String> stream = streamsBuilder.stream(inputTopic);
 
         stream.mapValues((ValueMapper<String, String>) String::toUpperCase)
-                .to("outputTopic02");
+                .to(outputTopic);
         return stream;
     }
 }

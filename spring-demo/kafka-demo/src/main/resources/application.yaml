@@ -18,3 +18,12 @@ spring:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+streams:
+  topic:
+    test01:
+      input: inputTopic01
+      output: outputTopic02
+    test02:
+      input: inputTopic02
+      output: outputTopic02
