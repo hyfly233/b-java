@@ -17,7 +17,7 @@ public class ConsumerTest {
 //
 //        if (records != null) {
 //            for (ConsumerRecord<String, String> record : records) {
-//                log.info("inputTopic01 record: {}", record);
+//                log.info("inputTopic01 record: {}", record.value());
 //            }
 //
 //            ack.acknowledge();
@@ -29,7 +29,7 @@ public class ConsumerTest {
 
         if (records != null) {
             for (ConsumerRecord<String, String> record : records) {
-                log.info("outputTopic01 record: {}", record);
+                log.info("outputTopic01 record: {}", record.value());
             }
 
             ack.acknowledge();
@@ -41,7 +41,7 @@ public class ConsumerTest {
 
         if (records != null) {
             for (ConsumerRecord<String, String> record : records) {
-                log.info("outputTopic02 record: {}", record);
+                log.info("outputTopic02 record: {}",record.value());
             }
 
             ack.acknowledge();

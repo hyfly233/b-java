@@ -2,6 +2,7 @@ package com.hyfly.kafkademo.controller;
 
 import com.hyfly.kafkademo.provider.ProviderService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,6 +16,11 @@ public class TestController {
 
     public TestController(ProviderService providerService) {
         this.providerService = providerService;
+    }
+
+    @GetMapping(path = "/ping")
+    public String ping() {
+        return "pong";
     }
 
     @PostMapping(path = "/inputTopic01")

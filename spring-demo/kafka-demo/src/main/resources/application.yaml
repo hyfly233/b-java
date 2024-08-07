@@ -18,12 +18,36 @@ spring:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      acks: all
+    streams:
+      application-id: ${spring.application.name}
+      properties:
+        default.key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+        default.value.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+        default.timestamp.extractor: org.apache.kafka.streams.processor.WallclockTimestampExtractor
+        processing.guarantee: exactly_once
+        # 消费者
+        consumer:
+          group-id: kafka-demo-streams-group
+          enable-auto-commit: false
+          auto-offset-reset: earliest
+          key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+          value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+        # 生产者
+        producer:
+          key-serializer: org.apache.kafka.common.serialization.StringSerializer
+          value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
 streams:
   topic:
     test01:
       input: inputTopic01
-      output: outputTopic02
+      output: outputTopic01
     test02:
       input: inputTopic02
       output: outputTopic02
+
+logging:
+  level:
+    org.apache.kafka: error
+    org.springframework.kafka: error
