@@ -1,4 +1,4 @@
-package com.hyfly.kafkademo.provider;
+package com.hyfly.kafkademo.producer;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -9,11 +9,11 @@ import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Service
-public class ProviderService {
+public class ProducerService {
 
     private final KafkaTemplate<String, Object> kafkaTemplate;
 
-    public ProviderService(KafkaTemplate<String, Object> kafkaTemplate) {
+    public ProducerService(KafkaTemplate<String, Object> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
     }
 
