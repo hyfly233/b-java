@@ -4,11 +4,11 @@
 
 ```json
 {
-    "producerType": "h3c",
+    "producerType": "",
     "tenantId": "9052ae85792143ff955c35c52e8e41bd",
     "resources": [
         {
-            "type": "h3c_security_group",
+            "type": "_security_group",
             "alias": "test_sg_1",
             "params": {
                 "name": "test_sg_11111",
@@ -17,7 +17,7 @@
             }
         },
         {
-            "type": "h3c_security_group",
+            "type": "_security_group",
             "alias": "test_sg_2",
             "params": {
                 "name": "test_sg_22222",
@@ -26,7 +26,7 @@
             }
         },
         {
-            "type": "h3c_compute_instance",
+            "type": "_compute_instance",
             "alias": "test_ecs_1",
             "params": {
                 "tenant_id": "9052ae85792143ff955c35c52e8e41bd",
@@ -60,7 +60,7 @@
             }
         },
         {
-            "type": "h3c_volume",
+            "type": "_volume",
             "alias": "test_volume",
             "params": {
                 "tenant_id": "9052ae85792143ff955c35c52e8e41bd",

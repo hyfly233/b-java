@@ -1,6 +1,6 @@
 package com.hyfly.tf.generate.service
 
-import com.hyfly.tf.generate.entity.request.TfGenerateReq
+import com.hyfly.tf.generate.entity.req.TfGenerateReq
 
 interface ITfGenerateService {
 

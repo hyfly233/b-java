@@ -1,6 +1,6 @@
 package com.hyfly.tf.generate.controller
 
-import com.hyfly.tf.generate.entity.request.TfGenerateReq
+import com.hyfly.tf.generate.entity.req.TfGenerateReq
 import com.hyfly.tf.generate.service.ITfGenerateService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.PostMapping

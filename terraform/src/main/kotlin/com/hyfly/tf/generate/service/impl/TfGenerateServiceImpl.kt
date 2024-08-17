@@ -3,17 +3,12 @@ package com.hyfly.tf.generate.service.impl
 import com.alibaba.fastjson2.JSON
 import com.alibaba.fastjson2.JSONObject
 import com.hyfly.tf.generate.entity.bo.TfGenerateBo
-import com.hyfly.tf.generate.entity.enums.H3cTfRelationEnum
-import com.hyfly.tf.generate.entity.enums.H3cTfType2ClazzEnum
-import com.hyfly.tf.generate.entity.enums.ProviderTypeEnum
-import com.hyfly.tf.generate.entity.request.*
-import com.hyfly.tf.generate.entity.request.h3c.H3cComputeInstanceReq
-import com.hyfly.tf.generate.entity.request.h3c.H3cComputeVolumeAttachReq
-import com.hyfly.tf.generate.entity.request.h3c.H3cSecurityGroupReq
-import com.hyfly.tf.generate.entity.request.h3c.H3cVolumeReq
-import com.hyfly.tf.generate.service.IH3cBoValidateService
-import com.hyfly.tf.generate.service.IH3cTfHandleService
+import com.hyfly.tf.generate.entity.enums.TfRelationEnum
+import com.hyfly.tf.generate.entity.enums.TfType2ClazzEnum
+import com.hyfly.tf.generate.entity.req.*
+import com.hyfly.tf.generate.service.IBoValidateService
 import com.hyfly.tf.generate.service.ITfGenerateService
+import com.hyfly.tf.generate.service.ITfHandleService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Lazy
 import org.springframework.stereotype.Service
@@ -23,11 +18,11 @@ import kotlin.random.Random
 class TfGenerateServiceImpl : ITfGenerateService {
 
     @Autowired
-    private lateinit var h3cTfHandle: IH3cTfHandleService
+    private lateinit var TfHandle: ITfHandleService
 
     @Lazy
     @Autowired
-    private lateinit var boValidateService: IH3cBoValidateService
+    private lateinit var boValidateService: IBoValidateService
 
     override fun generateTfJson(req: TfGenerateReq): String? {
 
@@ -83,10 +78,10 @@ class TfGenerateServiceImpl : ITfGenerateService {
      */
     private fun handleTfResources(
         producerType: String?,
-        resources: Set<ResourceReq>?,
+        resources: Set<TfResourceReq>?,
     ): Map<String, Any>? {
         if (producerType != null && resources != null) {
-            val processedResourceSet = HashSet<ResourceReq>()
+            val processedResourceSet = HashSet<TfResourceReq>()
 
             for (resource in resources) {
                 val resourceType = resource.type
@@ -94,21 +89,17 @@ class TfGenerateServiceImpl : ITfGenerateService {
                 val resourceParams = resource.params
 
                 if (resourceType != null && resourceAlias != null && resourceParams != null) {
-                    val resourceClass = H3cTfType2ClazzEnum.getResourceClass(resourceType)
+                    val resourceClass = TfType2ClazzEnum.getResourceClass(resourceType)
                     val paramsClazz = JSON.to(resourceClass, resourceParams)
 
                     var processedParams: JSONObject? = null
 
-                    if (ProviderTypeEnum.H3C.type == producerType) {
-                        if (paramsClazz is H3cComputeInstanceReq) {
-                            processedParams = h3cTfHandle.handleParamsH3cComputeInstance(paramsClazz)
-                        } else if (paramsClazz is H3cSecurityGroupReq) {
-                            processedParams = h3cTfHandle.handleParamsH3cSecurityGroup(resourceParams)
-                        } else if (paramsClazz is H3cVolumeReq) {
-                            processedParams = h3cTfHandle.handleParamsH3cVolume(paramsClazz)
-                        }
-                    } else if (ProviderTypeEnum.HUAWEICLOUD.type == producerType) {
-                        throw IllegalArgumentException("暂不支持华为云")
+                    if (paramsClazz is ComputeInstanceReq) {
+                        processedParams = TfHandle.handleParamsComputeInstance(paramsClazz)
+                    } else if (paramsClazz is SecurityGroupReq) {
+                        processedParams = TfHandle.handleParamsSecurityGroup(resourceParams)
+                    } else if (paramsClazz is VolumeReq) {
+                        processedParams = TfHandle.handleParamsVolume(paramsClazz)
                     }
 
                     if (processedParams == null) {
@@ -157,13 +148,13 @@ class TfGenerateServiceImpl : ITfGenerateService {
     private fun handleTfRelations(
         producerType: String?,
         tenantId: String?,
-        resources: Set<ResourceReq>?,
-        relations: Set<RelationReq>?
+        resources: Set<TfResourceReq>?,
+        relations: Set<TfRelationReq>?
     ): Map<String, Any>? {
         var type2ResourceMap: Map<String, Any>? = null
 
         if (producerType != null && resources != null && relations != null) {
-            val processedResourceSet = HashSet<ResourceReq>()
+            val processedResourceSet = HashSet<TfResourceReq>()
 
             val alias2ResourceMap = resources.associateBy({ it.alias }, { it })
 
@@ -190,43 +181,39 @@ class TfGenerateServiceImpl : ITfGenerateService {
                 }
 
                 // 通过 type 获取对应的 clazz
-                val relationEnum = H3cTfRelationEnum.getRelationClass(sourceType, targetType)
+                val relationEnum = TfRelationEnum.getRelationClass(sourceType, targetType)
 
                 var relationResourceType: String? = null
                 var processedParams: JSONObject? = null
 
                 // 通过 clazz 获取对应的关联关系类
-                if (ProviderTypeEnum.H3C.type == producerType) {
-                    if (tenantId == null) {
-                        throw IllegalArgumentException("h3c 类型的资源 tenantId 不能为空")
+                if (tenantId == null) {
+                    throw IllegalArgumentException(" 类型的资源 tenantId 不能为空")
+                }
+
+                if (relationEnum.isResource) {
+                    // eg1: 云主机与云硬盘的绑定关系，需要转换为 openstack_compute_volume_attach_v2
+                    relationResourceType = TfType2ClazzEnum.getResourceType(relationEnum.clazz!!)
+
+                    if (relationEnum.clazz == ComputeVolumeAttachReq::class.java) {
+                        // 给关联关系设值
+                        processedParams = TfHandle.handleParamsComputeVolumeAttach(
+                            tenantId,
+                            targetType,
+                            sourceType,
+                            targetAlias,
+                            sourceAlias
+                        )
                     }
+                } else {
+                    // eg2: 云主机与安全组的绑定关系，需要将安全组的 id 传入云主机的 security_groups 参数中
+                    if (relationEnum == TfRelationEnum.COMPUTE_SECURITY_GROUP_ATTACH) {
+                        processedParams =
+                            TfHandle.handleComputeSecurityGroupAttach(sourceResource, targetType, targetAlias)
 
-                    if (relationEnum.isResource) {
-                        // eg1: 云主机与云硬盘的绑定关系，需要转换为 openstack_compute_volume_attach_v2
-                        relationResourceType = H3cTfType2ClazzEnum.getResourceType(relationEnum.clazz!!)
-
-                        if (relationEnum.clazz == H3cComputeVolumeAttachReq::class.java) {
-                            // 给关联关系设值
-                            processedParams = h3cTfHandle.handleParamsComputeVolumeAttach(
-                                tenantId,
-                                targetType,
-                                sourceType,
-                                targetAlias,
-                                sourceAlias
-                            )
-                        }
-                    } else {
-                        // eg2: 云主机与安全组的绑定关系，需要将安全组的 id 传入云主机的 security_groups 参数中
-                        if (relationEnum == H3cTfRelationEnum.COMPUTE_SECURITY_GROUP_ATTACH) {
-                            processedParams =
-                                h3cTfHandle.handleComputeSecurityGroupAttach(sourceResource, targetType, targetAlias)
-
-                            // 替换原有的 params
-                            sourceResource.params = processedParams
-                        }
+                        // 替换原有的 params
+                        sourceResource.params = processedParams
                     }
-                } else if (ProviderTypeEnum.HUAWEICLOUD.type == producerType) {
-                    throw IllegalArgumentException("暂不支持华为云")
                 }
 
                 if (relationResourceType == null || processedParams == null) {
@@ -234,9 +221,9 @@ class TfGenerateServiceImpl : ITfGenerateService {
                 }
 
                 processedResourceSet.add(
-                    ResourceReq(
+                    TfResourceReq(
                         relationResourceType,
-                        randomGenerateAlias(H3cTfType2ClazzEnum.getAbbreviation(relationResourceType)),
+                        randomGenerateAlias(TfType2ClazzEnum.getAbbreviation(relationResourceType)),
                         processedParams
                     )
                 )
@@ -270,7 +257,7 @@ class TfGenerateServiceImpl : ITfGenerateService {
      * @param variableMap 变量map
      * @return 处理后的变量map
      */
-    private fun handleTfVariables(variableMap: Map<String, VariableReq>?): Map<String, Any>? {
+    private fun handleTfVariables(variableMap: Map<String, TfVariableReq>?): Map<String, Any>? {
         return variableMap
     }
 
@@ -280,7 +267,7 @@ class TfGenerateServiceImpl : ITfGenerateService {
      * @param outputs 输出map
      * @return 处理后的输出map
      */
-    private fun handleTfOutputs(outputs: Map<String, OutputReq>?): Map<String, Any>? {
+    private fun handleTfOutputs(outputs: Map<String, TfOutputReq>?): Map<String, Any>? {
 
         if (!outputs.isNullOrEmpty()) {
             boValidateService.validateOutputs(outputs)
