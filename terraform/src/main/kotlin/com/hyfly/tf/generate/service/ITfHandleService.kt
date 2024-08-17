@@ -1,9 +1,9 @@
 package com.hyfly.tf.generate.service
 
 import com.alibaba.fastjson2.JSONObject
-import com.hyfly.tf.generate.entity.req.ComputeInstanceReq
+import com.hyfly.tf.generate.entity.req.tfj.ComputeInstanceReq
 import com.hyfly.tf.generate.entity.req.TfResourceReq
-import com.hyfly.tf.generate.entity.req.VolumeReq
+import com.hyfly.tf.generate.entity.req.tfj.VolumeReq
 
 interface ITfHandleService {
 

@@ -3,14 +3,14 @@ package com.hyfly.tf.generate.service.impl
 import com.alibaba.fastjson2.JSON
 import com.alibaba.fastjson2.JSONArray
 import com.alibaba.fastjson2.JSONObject
-import com.hyfly.tf.generate.entity.bo.ComputeInstanceBo
-import com.hyfly.tf.generate.entity.bo.VolumeBo
-import com.hyfly.tf.generate.entity.bo.VolumeMetadataBo
-import com.hyfly.tf.generate.entity.req.ComputeInstanceReq
-import com.hyfly.tf.generate.entity.req.ComputeVolumeAttachReq
+import com.hyfly.tf.generate.entity.bo.tfj.ComputeInstanceBo
+import com.hyfly.tf.generate.entity.bo.tfj.VolumeBo
+import com.hyfly.tf.generate.entity.bo.tfj.VolumeMetadataBo
+import com.hyfly.tf.generate.entity.req.tfj.ComputeInstanceReq
+import com.hyfly.tf.generate.entity.req.tfj.ComputeVolumeAttachReq
 import com.hyfly.tf.generate.entity.req.TfResourceReq
-import com.hyfly.tf.generate.entity.req.VolumeReq
-import com.hyfly.tf.generate.service.IBoValidateService
+import com.hyfly.tf.generate.entity.req.tfj.VolumeReq
+import com.hyfly.tf.generate.service.ITfjBoValidateService
 import com.hyfly.tf.generate.service.ITfHandleService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service
 class TfHandleServiceImpl : ITfHandleService {
 
     @Autowired
-    private lateinit var boValidateService: IBoValidateService
+    private lateinit var boValidateService: ITfjBoValidateService
 
     override fun handleParamsComputeInstance(param: ComputeInstanceReq): JSONObject {
 

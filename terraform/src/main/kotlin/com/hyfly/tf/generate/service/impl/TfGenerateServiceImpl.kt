@@ -6,7 +6,11 @@ import com.hyfly.tf.generate.entity.bo.TfGenerateBo
 import com.hyfly.tf.generate.entity.enums.TfRelationEnum
 import com.hyfly.tf.generate.entity.enums.TfType2ClazzEnum
 import com.hyfly.tf.generate.entity.req.*
-import com.hyfly.tf.generate.service.IBoValidateService
+import com.hyfly.tf.generate.entity.req.tfj.ComputeInstanceReq
+import com.hyfly.tf.generate.entity.req.tfj.ComputeVolumeAttachReq
+import com.hyfly.tf.generate.entity.req.tfj.SecurityGroupReq
+import com.hyfly.tf.generate.entity.req.tfj.VolumeReq
+import com.hyfly.tf.generate.service.ITfjBoValidateService
 import com.hyfly.tf.generate.service.ITfGenerateService
 import com.hyfly.tf.generate.service.ITfHandleService
 import org.springframework.beans.factory.annotation.Autowired
@@ -22,7 +26,7 @@ class TfGenerateServiceImpl : ITfGenerateService {
 
     @Lazy
     @Autowired
-    private lateinit var boValidateService: IBoValidateService
+    private lateinit var boValidateService: ITfjBoValidateService
 
     override fun generateTfJson(req: TfGenerateReq): String? {
 

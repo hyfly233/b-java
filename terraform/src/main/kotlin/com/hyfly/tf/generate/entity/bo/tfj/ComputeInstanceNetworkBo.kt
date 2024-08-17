@@ -1,7 +1,7 @@
-package com.hyfly.tf.generate.entity.bo
+package com.hyfly.tf.generate.entity.bo.tfj
 
 import com.alibaba.fastjson2.annotation.JSONField
-import com.hyfly.tf.generate.entity.req.ComputeInstanceNetworkReq
+import com.hyfly.tf.generate.entity.req.tfj.ComputeInstanceNetworkReq
 
 data class ComputeInstanceNetworkBo(
 

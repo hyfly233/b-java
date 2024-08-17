@@ -1,9 +1,9 @@
 package com.hyfly.tf.generate.service
 
-import com.hyfly.tf.generate.entity.bo.ComputeInstanceBo
+import com.hyfly.tf.generate.entity.bo.tfj.ComputeInstanceBo
 import com.hyfly.tf.generate.entity.req.TfOutputReq
 
-interface IBoValidateService {
+interface ITfjBoValidateService {
 
     /**
      * 验证输出参数

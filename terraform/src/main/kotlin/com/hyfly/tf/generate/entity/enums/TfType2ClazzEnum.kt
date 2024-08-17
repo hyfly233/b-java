@@ -1,13 +1,13 @@
 package com.hyfly.tf.generate.entity.enums
 
-import com.hyfly.tf.generate.entity.req.*
+import com.hyfly.tf.generate.entity.req.tfj.*
 
 enum class TfType2ClazzEnum(val type: String, val abbreviation: String, val clazz: Class<*>) {
-    COMPUTE_INSTANCE("_compute_instance", "hci", ComputeInstanceReq::class.java),
-    COMPUTE_INTERFACE_ATTACH("_compute_interface_attach", "hcia", ComputeInterfaceAttachReq::class.java),
-    COMPUTE_VOLUME_ATTACH("_compute_volume_attach", "hcva", ComputeVolumeAttachReq::class.java),
-    SECURITY_GROUP("_security_group", "hsg", SecurityGroupReq::class.java),
-    VOLUME("_volume", "hv", VolumeReq::class.java);
+    COMPUTE_INSTANCE("compute_instance", "hci", ComputeInstanceReq::class.java),
+    COMPUTE_INTERFACE_ATTACH("compute_interface_attach", "hcia", ComputeInterfaceAttachReq::class.java),
+    COMPUTE_VOLUME_ATTACH("compute_volume_attach", "hcva", ComputeVolumeAttachReq::class.java),
+    SECURITY_GROUP("security_group", "hsg", SecurityGroupReq::class.java),
+    VOLUME("volume", "hv", VolumeReq::class.java);
 
     companion object {
         fun getResourceType(clazz: Class<*>): String {

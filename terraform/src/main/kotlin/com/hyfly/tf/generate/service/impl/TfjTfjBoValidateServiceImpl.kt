@@ -1,12 +1,12 @@
 package com.hyfly.tf.generate.service.impl
 
-import com.hyfly.tf.generate.entity.bo.ComputeInstanceBo
+import com.hyfly.tf.generate.entity.bo.tfj.ComputeInstanceBo
 import com.hyfly.tf.generate.entity.req.TfOutputReq
-import com.hyfly.tf.generate.service.IBoValidateService
+import com.hyfly.tf.generate.service.ITfjBoValidateService
 import org.springframework.stereotype.Service
 
 @Service
-class BoValidateServiceImpl : IBoValidateService {
+class TfjTfjBoValidateServiceImpl : ITfjBoValidateService {
 
     override fun validateOutputs(outputs: Map<String, TfOutputReq>) {
         for (entry in outputs.entries) {

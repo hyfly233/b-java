@@ -1,4 +1,4 @@
-package com.hyfly.tf.generate.entity.req
+package com.hyfly.tf.generate.entity.req.tfj
 
 import com.alibaba.fastjson2.annotation.JSONField
 
