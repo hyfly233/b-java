@@ -1,36 +1,36 @@
-package com.hyfly.tf.actuator.entity.plan;
+package com.hyfly.tf.actuator.entity.plan
 
-import com.alibaba.fastjson2.annotation.JSONField;
-import lombok.Data;
+import com.alibaba.fastjson2.annotation.JSONField
 
 /**
  * github.com/hashicorp/terraform-json
- * <p>
+ *
+ *
  * // StateOutput represents an output value in a common state
  * // representation.
  * type StateOutput struct {
  * // Whether or not the output was marked as sensitive.
  * Sensitive bool `json:"sensitive"`
- * <p>
+ *
+ *
  * // The value of the output.
  * Value interface{} `json:"value,omitempty"`
- * <p>
+ *
+ *
  * // The type of the output.
  * Type cty.Type `json:"type,omitempty"`
  * }
  */
-@Data
-public class StateOutput {
-
+class StateOutput {
     // Whether or not the output was marked as sensitive.
     @JSONField(name = "sensitive")
-    private boolean sensitive;
+    val sensitive = false
 
     // The value of the output.
     @JSONField(name = "value")
-    private Object value;
+    val value: Any? = null
 
     // The type of the output.
     @JSONField(name = "type")
-    private String type;
+    val type: String? = null
 }

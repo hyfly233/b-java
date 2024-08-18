@@ -1,36 +1,29 @@
-package com.hyfly.tf.actuator.entity.plan;
+package com.hyfly.tf.actuator.entity.plan
 
-
-import com.alibaba.fastjson2.annotation.JSONField;
-import lombok.Data;
-
-import java.util.List;
-import java.util.Map;
+import com.alibaba.fastjson2.annotation.JSONField
 
 /**
  * github.com/hashicorp/terraform-json
  */
-@Data
-public class Plan {
-
+class Plan {
     @JSONField(name = "format_version")
-    private String formatVersion;
+    var formatVersion: String? = null
 
     @JSONField(name = "terraform_version")
-    private String terraformVersion;
+    var terraformVersion: String? = null
 
     @JSONField(name = "variables")
-    private Map<String, PlanVariable> variables;
+    var variables: MutableMap<String, PlanVariable>? = null
 
     @JSONField(name = "planned_values")
-    private StateValues plannedValues;
+    var plannedValues: StateValues? = null
 
     // The change operations for resources and data sources within this
     // plan.
     @JSONField(name = "resource_changes")
-    private List<ResourceChange> resourceChanges;
+    var resourceChanges: MutableList<ResourceChange>? = null
 
     // The Terraform configuration used to make the plan.
     @JSONField(name = "configuration")
-    private Config configuration;
+    var configuration: Config? = null
 }

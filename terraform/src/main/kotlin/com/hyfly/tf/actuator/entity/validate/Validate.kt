@@ -1,22 +1,17 @@
-package com.hyfly.tf.actuator.entity.validate;
+package com.hyfly.tf.actuator.entity.validate
 
-import com.alibaba.fastjson2.annotation.JSONField;
-import lombok.Data;
+import com.alibaba.fastjson2.annotation.JSONField
 
-import java.util.List;
-
-@Data
-public class Validate {
-
+class Validate {
     @JSONField(name = "valid")
-    private Boolean valid;
+    val valid: Boolean? = null
 
     @JSONField(name = "error_count")
-    private Integer errorCount;
+    val errorCount: Int? = null
 
     @JSONField(name = "warning_count")
-    private Integer warningCount;
+    val warningCount: Int? = null
 
     @JSONField(name = "diagnostics")
-    private List<Diagnostic> diagnostics;
+    val diagnostics: MutableList<Diagnostic>? = null
 }

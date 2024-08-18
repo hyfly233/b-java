@@ -1,16 +1,11 @@
-package com.hyfly.tf.actuator.entity.schema;
+package com.hyfly.tf.actuator.entity.schema
 
-import com.alibaba.fastjson2.annotation.JSONField;
-import lombok.Data;
+import com.alibaba.fastjson2.annotation.JSONField
 
-/**
- *
- */
-@Data
-public class Schema {
+class Schema {
     @JSONField(name = "version")
-    Integer version;
+    var version: Int? = null
 
     @JSONField(name = "block")
-    SchemaBlock block;
+    var block: SchemaBlock? = null
 }

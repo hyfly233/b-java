@@ -1,17 +1,14 @@
-package com.hyfly.tf.actuator.entity.validate;
+package com.hyfly.tf.actuator.entity.validate
 
-import com.alibaba.fastjson2.annotation.JSONField;
-import lombok.Data;
+import com.alibaba.fastjson2.annotation.JSONField
 
-@Data
-public class Snippet {
-
+class Snippet {
     @JSONField(name = "context")
-    private String context;
+    val context: String? = null
 
     @JSONField(name = "code")
-    private String code;
+    val code: String? = null
 
     @JSONField(name = "start_line")
-    private Integer startLine;
+    val startLine: Int? = null
 }

@@ -1,27 +1,20 @@
-package com.hyfly.tf.actuator.entity.plan.constants;
+package com.hyfly.tf.actuator.entity.plan.constants
 
-import java.util.ArrayList;
-import java.util.List;
+object PlanAction {
+    const val NOOP: String = "no-op"
 
-public class PlanAction {
+    const val CREATE: String = "create"
 
-    public static final String NOOP = "no-op";
+    const val READ: String = "read"
 
-    public static final String CREATE = "create";
+    const val UPDATE: String = "update"
 
-    public static final String READ = "read";
-
-    public static final String UPDATE = "update";
-
-    public static final String DELETE = "delete";
+    const val DELETE: String = "delete"
 
     /**
      * 资源重建替换，对应的 actions 为 ["delete", "create"]
      */
-    public static final String REPLACE = "replace";
+    const val REPLACE: String = "replace"
 
-    public static final List<String> REPLACE_ACTIONS = new ArrayList<String>() {{
-        add(DELETE);
-        add(CREATE);
-    }};
+    val REPLACE_ACTIONS: List<String> = mutableListOf(DELETE, CREATE)
 }

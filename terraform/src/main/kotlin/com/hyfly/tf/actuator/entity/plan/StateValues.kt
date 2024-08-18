@@ -1,9 +1,6 @@
-package com.hyfly.tf.actuator.entity.plan;
+package com.hyfly.tf.actuator.entity.plan
 
-import com.alibaba.fastjson2.annotation.JSONField;
-import lombok.Data;
-
-import java.util.Map;
+import com.alibaba.fastjson2.annotation.JSONField
 
 /**
  * github.com/hashicorp/terraform-json
@@ -18,14 +15,12 @@ import java.util.Map;
  * RootModule *StateModule `json:"root_module,omitempty"`
  * }
  */
-@Data
-public class StateValues {
-
+class StateValues {
     // The Outputs for this common state representation.
     @JSONField(name = "outputs")
-    private Map<String, StateOutput> outputs;
+    val outputs: MutableMap<String, StateOutput>? = null
 
     // The root module in this state representation.
     @JSONField(name = "root_module")
-    private StateModule rootModule;
+    val rootModule: StateModule? = null
 }

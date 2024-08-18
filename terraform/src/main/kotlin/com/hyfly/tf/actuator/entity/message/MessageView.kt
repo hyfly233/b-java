@@ -1,35 +1,32 @@
-package com.hyfly.tf.actuator.entity.message;
+package com.hyfly.tf.actuator.entity.message
 
-import com.alibaba.fastjson2.annotation.JSONField;
-import lombok.Data;
+import com.alibaba.fastjson2.annotation.JSONField
 
-@Data
-public class MessageView {
-
+class MessageView {
     /**
      * info, error
      */
     @JSONField(name = "@level")
-    private String level;
+    val level: String? = null
 
     @JSONField(name = "@message")
-    private String message;
+    val message: String? = null
 
     @JSONField(name = "@module")
-    private String module;
+    val module: String? = null
 
     @JSONField(name = "@timestamp")
-    private String timestamp;
+    val timestamp: String? = null
 
     /**
      * planned_change, change_summary
      */
     @JSONField(name = "type")
-    private String type;
+    val type: String? = null
 
     @JSONField(name = "changes")
-    private ChangeSummary changeSummary;
+    val changeSummary: ChangeSummary? = null
 
     @JSONField(name = "diagnostic")
-    private Diagnostic diagnostic;
+    val diagnostic: Diagnostic? = null
 }

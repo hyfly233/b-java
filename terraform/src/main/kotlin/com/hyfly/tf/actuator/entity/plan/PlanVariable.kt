@@ -1,18 +1,16 @@
-package com.hyfly.tf.actuator.entity.plan;
+package com.hyfly.tf.actuator.entity.plan
 
-import com.alibaba.fastjson2.annotation.JSONField;
-import lombok.Data;
+import com.alibaba.fastjson2.annotation.JSONField
 
 /**
  * github.com/hashicorp/terraform-json
- * <p>
+ *
  * type PlanVariable struct {
  * // The value for this variable at plan time.
  * Value interface{} `json:"value,omitempty"`
  * }
  */
-@Data
-public class PlanVariable {
+class PlanVariable {
     @JSONField(name = "value")
-    private Object value;
+    var value: Any? = null
 }

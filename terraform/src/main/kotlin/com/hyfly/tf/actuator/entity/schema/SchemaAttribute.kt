@@ -1,6 +1,4 @@
-package com.hyfly.tf.actuator.entity.schema;
-
-import lombok.Data;
+package com.hyfly.tf.actuator.entity.schema
 
 /**
  * // The attribute type
@@ -37,7 +35,4 @@ import lombok.Data;
  * // treat these values with greater care than non-sensitive fields.
  * Sensitive bool `json:"sensitive,omitempty"`
  */
-@Data
-public class SchemaAttribute {
-
-}
+class SchemaAttribute

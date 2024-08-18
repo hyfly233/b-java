@@ -1,89 +1,66 @@
-package com.hyfly.tf.actuator.entity.bo;
+package com.hyfly.tf.actuator.entity.bo
 
-import lombok.Data;
+data class ResourceChangeSummary(
+    val create: MutableMap<String, ResourceSummary> = mutableMapOf(),
+    val update: MutableMap<String, ResourceSummary> = mutableMapOf(),
+    val delete: MutableMap<String, ResourceSummary> = mutableMapOf(),
+    val createdSet: MutableSet<String> = mutableSetOf(),
+    val updatedSet: MutableSet<String> = mutableSetOf(),
+    val deletedSet: MutableSet<String> = mutableSetOf()
+) {
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
-@Data
-public class ResourceChangeSummary {
-
-    private final Map<String, ResourceSummary> create;
-
-    private final Map<String, ResourceSummary> update;
-
-    private final Map<String, ResourceSummary> delete;
-
-    private final Set<String> createdSet;
-
-    private final Set<String> updatedSet;
-
-    private final Set<String> deletedSet;
-
-    public ResourceChangeSummary() {
-        this.create = new HashMap<>();
-        this.update = new HashMap<>();
-        this.delete = new HashMap<>();
-        this.createdSet = new HashSet<>();
-        this.updatedSet = new HashSet<>();
-        this.deletedSet = new HashSet<>();
+    fun addCreate(key: String, value: ResourceSummary) {
+        create[key] = value
     }
 
-    public void addCreate(String key, ResourceSummary value) {
-        this.create.put(key, value);
+    fun addCreated(key: String) {
+        createdSet.add(key)
     }
 
-    public void addCreated(String key) {
-        this.createdSet.add(key);
+    fun addUpdate(key: String, value: ResourceSummary) {
+        update[key] = value
     }
 
-    public void addUpdate(String key, ResourceSummary value) {
-        this.update.put(key, value);
+    fun addUpdated(key: String) {
+        updatedSet.add(key)
     }
 
-    public void addUpdated(String key) {
-        this.updatedSet.add(key);
+    fun addDelete(key: String, value: ResourceSummary) {
+        delete[key] = value
     }
 
-    public void addDelete(String key, ResourceSummary value) {
-        this.delete.put(key, value);
+    fun addDeleted(key: String) {
+        deletedSet.add(key)
     }
 
-    public void addDeleted(String key) {
-        this.deletedSet.add(key);
+    fun setCreate(create: Map<String, ResourceSummary>) {
+        this.create.clear()
+        this.create.putAll(create)
     }
 
-    public void setCreate(Map<String, ResourceSummary> create) {
-        this.create.clear();
-        this.create.putAll(create);
+    fun setUpdate(update: Map<String, ResourceSummary>) {
+        this.update.clear()
+        this.update.putAll(update)
     }
 
-    public void setUpdate(Map<String, ResourceSummary> update) {
-        this.update.clear();
-        this.update.putAll(update);
+    fun setDelete(delete: Map<String, ResourceSummary>) {
+        this.delete.clear()
+        this.delete.putAll(delete)
     }
 
-    public void setDelete(Map<String, ResourceSummary> delete) {
-        this.delete.clear();
-        this.delete.putAll(delete);
+    fun createCount(): Int {
+        return create.size
     }
 
-    public int createCount() {
-        return this.create.size();
+    fun updateCount(): Int {
+        return update.size
     }
 
-    public int updateCount() {
-        return this.update.size();
+    fun deleteCount(): Int {
+        return delete.size
     }
 
-    public int deleteCount() {
-        return this.delete.size();
+    fun isNoOperation(): Boolean {
+        return createCount() + updateCount() + deleteCount() == 0
     }
-
-    public boolean isNoOperation() {
-        return this.createCount() + this.updateCount() + this.deleteCount() == 0;
-    }
-
 }

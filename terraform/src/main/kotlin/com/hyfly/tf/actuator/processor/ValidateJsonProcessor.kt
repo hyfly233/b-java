@@ -1,53 +1,51 @@
-package com.hyfly.tf.actuator.processor;
+package com.hyfly.tf.actuator.processor
 
-import com.alibaba.fastjson2.JSON;
-import com.hyfly.tf.actuator.entity.message.Diagnostic;
-import com.hyfly.tf.actuator.entity.message.MessageView;
-import com.hyfly.tf.actuator.entity.message.constants.MessageLevel;
-import com.hyfly.tf.actuator.entity.validate.Validate;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import org.apache.commons.lang3.StringUtils;
+import com.alibaba.fastjson2.JSON
+import com.hyfly.tf.actuator.entity.message.MessageView
+import com.hyfly.tf.actuator.entity.message.constants.MessageLevel
+import com.hyfly.tf.actuator.entity.validate.Validate
 
-@Data
-@EqualsAndHashCode(callSuper = true)
-public class ValidateJsonProcessor extends BaseProcessor {
+class ValidateJsonProcessor : BaseProcessor() {
+    private var validate: Validate? = null
 
-    private Validate validate;
-
-    @Override
-    public void parse(String line) {
+    override fun parse(line: String?) {
         if (completed) {
-            return;
+            return
         }
 
-        if (StringUtils.isNotBlank(line)) {
+        if (!line.isNullOrEmpty()) {
             if (line.contains("@level") && line.contains("@message") &&
-                    line.contains("@module") && line.contains("@timestamp")) {
-                MessageView view = JSON.parseObject(line, MessageView.class);
+                line.contains("@module") && line.contains("@timestamp")
+            ) {
+                val view = JSON.parseObject(line, MessageView::class.java)
 
-                if (MessageLevel.ERROR.equals(view.getLevel())) {
-                    String message = view.getMessage();
-                    Diagnostic diagnostic = view.getDiagnostic();
-                    if (diagnostic != null) {
-                        message = message + ". " + diagnostic.getDetail();
+                if (MessageLevel.ERROR == view.level) {
+                    var message = view.message
+
+                    if (!message.isNullOrEmpty()) {
+                        val diagnostic = view.diagnostic
+                        if (diagnostic != null) {
+                            message = message + ". " + diagnostic.detail
+                        }
+
+                        hasErr = true
+                        errorBuilder.append(message.trim()).append("\n")
                     }
-
-                    hasErr = true;
-                    errorBuilder.append(message.trim()).append("\n");
                 }
             } else if (line.contains("error_count") && line.contains("warning_count")) {
-                validate = JSON.parseObject(line, Validate.class);
-                completed = true;
+                validate = JSON.parseObject(
+                    line,
+                    Validate::class.java
+                )
+                completed = true
             }
         }
     }
 
-    @Override
-    public void parseError(String line) {
-        hasErr = true;
-        if (StringUtils.isNotBlank(line)) {
-            errorBuilder.append(line.trim()).append("\n");
+    override fun parseError(line: String?) {
+        hasErr = true
+        if (!line.isNullOrEmpty()) {
+            errorBuilder.append(line.trim()).append("\n")
         }
     }
 }

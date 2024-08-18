@@ -1,30 +1,29 @@
-package com.hyfly.tf.actuator.entity.message;
+package com.hyfly.tf.actuator.entity.message
 
-import com.alibaba.fastjson2.annotation.JSONField;
-import lombok.Data;
+import com.alibaba.fastjson2.annotation.JSONField
 
-@Data
-public class ChangeSummary {
-
-    public static final String TYPE_SUFFIX = "_summary";
-
-    public static final String CHANGE_TYPE = "change" + TYPE_SUFFIX;
-
+class ChangeSummary {
     @JSONField(name = "add")
-    private Integer addCount;
+    val addCount: Int? = null
 
     @JSONField(name = "change")
-    private Integer changeCount;
+    val changeCount: Int? = null
 
     @JSONField(name = "remove")
-    private Integer removeCount;
+    val removeCount: Int? = null
 
     @JSONField(name = "import")
-    private Integer importCount;
+    val importCount: Int? = null
 
     /**
      * apply, plan, destroy
      */
     @JSONField(name = "operation")
-    private String operation;
+    val operation: String? = null
+
+    companion object {
+        const val TYPE_SUFFIX: String = "_summary"
+
+        const val CHANGE_TYPE: String = "change" + TYPE_SUFFIX
+    }
 }

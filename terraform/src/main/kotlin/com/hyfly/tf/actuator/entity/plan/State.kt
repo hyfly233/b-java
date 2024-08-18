@@ -1,11 +1,11 @@
-package com.hyfly.tf.actuator.entity.plan;
+package com.hyfly.tf.actuator.entity.plan
 
-import com.alibaba.fastjson2.annotation.JSONField;
-import lombok.Data;
+import com.alibaba.fastjson2.annotation.JSONField
 
 /**
  * github.com/hashicorp/terraform-json
- * <p>
+ *
+ *
  * // State is the top-level representation of a Terraform state.
  * type State struct {
  * // useJSONNumber opts into the behavior of calling
@@ -30,20 +30,18 @@ import lombok.Data;
  * Checks []CheckResultStatic `json:"checks,omitempty"`
  * }
  */
-@Data
-public class State {
-
+class State {
     // The version of the state format. This should always match the
     // StateFormatVersion constant in this package, or else am
     // unmarshal will be unstable.
     @JSONField(name = "format_version")
-    private String formatVersion;
+    val formatVersion: String? = null
 
     // The Terraform version used to make the state.
     @JSONField(name = "terraform_version")
-    private String terraformVersion;
+    val terraformVersion: String? = null
 
     // The values that make up the state.
     @JSONField(name = "values")
-    private StateValues values;
+    val values: StateValues? = null
 }

@@ -1,9 +1,7 @@
-package com.hyfly.tf.actuator.entity.schema;
+package com.hyfly.tf.actuator.entity.schema
 
-import com.alibaba.fastjson2.annotation.JSONField;
-import lombok.Data;
-
-import java.util.Map;
+import com.alibaba.fastjson2.annotation.JSONField
+import lombok.Data
 
 /**
  * // The attributes defined at the particular level of this block.
@@ -21,10 +19,7 @@ import java.util.Map;
  * Deprecated bool `json:"deprecated,omitempty"`
  */
 @Data
-public class SchemaBlock {
-
+class SchemaBlock {
     @JSONField(name = "attributes")
-    Map<String, SchemaAttribute> attributes;
-
-
+    var attributes: MutableMap<String, SchemaAttribute>? = null
 }

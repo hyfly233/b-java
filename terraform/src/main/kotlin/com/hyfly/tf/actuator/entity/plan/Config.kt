@@ -1,9 +1,6 @@
-package com.hyfly.tf.actuator.entity.plan;
+package com.hyfly.tf.actuator.entity.plan
 
-import com.alibaba.fastjson2.annotation.JSONField;
-import lombok.Data;
-
-import java.util.Map;
+import com.alibaba.fastjson2.annotation.JSONField
 
 /**
  * github.com/hashicorp/terraform-json
@@ -23,9 +20,7 @@ import java.util.Map;
  * RootModule *ConfigModule `json:"root_module,omitempty"`
  * }
  */
-@Data
-public class Config {
-
+class Config {
     // A map of all provider instances across all modules in the
     // configuration.
     //
@@ -33,10 +28,10 @@ public class Config {
     // the individual fields in ProviderConfig to discern actual data
     // about the provider such as name, alias, or defined module.
     @JSONField(name = "provider_config")
-    private Map<String, ProviderConfig> providerConfigs;
+    val providerConfigs: MutableMap<String, ProviderConfig>? = null
 
     // The root module in the configuration. Any child modules descend
     // off of here.
     @JSONField(name = "root_module")
-    private ConfigModule rootModule;
+    val rootModule: ConfigModule? = null
 }

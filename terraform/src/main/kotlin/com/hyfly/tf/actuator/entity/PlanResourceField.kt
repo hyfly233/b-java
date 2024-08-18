@@ -1,21 +1,18 @@
-package com.hyfly.tf.actuator.entity;
+package com.hyfly.tf.actuator.entity
 
-import lombok.Data;
-
-@Data
-public class PlanResourceField {
+class PlanResourceField {
     /**
      * 字段名称
      */
-    private String field;
+    val field: String? = null
 
     /**
      * 原始值
      */
-    private String original;
+    val original: String? = null
 
     /**
      * 目标值
      */
-    private String target;
+    val target: String? = null
 }

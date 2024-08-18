@@ -1,32 +1,29 @@
-package com.hyfly.tf.actuator.entity.message;
+package com.hyfly.tf.actuator.entity.message
 
-import com.alibaba.fastjson2.annotation.JSONField;
-import lombok.Data;
+import com.alibaba.fastjson2.annotation.JSONField
 
 /**
  * github.com/hashicorp/terraform/json/diagnostic.go
  */
-@Data
-public class Diagnostic {
-
+class Diagnostic {
     /**
      * unknown, error, warning
      */
     @JSONField(name = "severity")
-    private String severity;
+    val severity: String? = null
 
     @JSONField(name = "summary")
-    private String summary;
+    val summary: String? = null
 
     @JSONField(name = "detail")
-    private String detail;
+    val detail: String? = null
 
     @JSONField(name = "address")
-    private Object address;
+    val address: Any? = null
 
     @JSONField(name = "range")
-    private Object range;
+    val range: Any? = null
 
     @JSONField(name = "snippet")
-    private Object snippet;
+    val snippet: Any? = null
 }

@@ -1,75 +1,72 @@
-package com.hyfly.tf.actuator.processor;
+package com.hyfly.tf.actuator.processor
 
-import com.alibaba.fastjson2.JSON;
-import com.hyfly.tf.actuator.entity.message.ChangeSummary;
-import com.hyfly.tf.actuator.entity.message.Diagnostic;
-import com.hyfly.tf.actuator.entity.message.MessageView;
-import com.hyfly.tf.actuator.entity.message.constants.MessageLevel;
-import com.hyfly.tf.actuator.entity.message.constants.MessageType;
-import com.hyfly.tf.actuator.entity.plan.Plan;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
+import com.alibaba.fastjson2.JSON
+import com.hyfly.tf.actuator.entity.message.ChangeSummary
+import com.hyfly.tf.actuator.entity.message.MessageView
+import com.hyfly.tf.actuator.entity.message.constants.MessageLevel
+import com.hyfly.tf.actuator.entity.message.constants.MessageType
+import com.hyfly.tf.actuator.entity.plan.Plan
+import org.slf4j.LoggerFactory
 
-@Data
-@Slf4j
-@EqualsAndHashCode(callSuper = true)
-public class PlanJsonProcessor extends BaseProcessor {
+class PlanJsonProcessor : BaseProcessor() {
+    var planJson: String? = null
 
-    private String planJson;
+    var changeSummary: ChangeSummary? = null
 
-    private ChangeSummary changeSummary;
+    private val log = LoggerFactory.getLogger(PlanJsonProcessor::class.java)
 
-    @Override
-    public void parse(String line) {
-        if (completed) {
-            return;
+    override fun parse(line: String?) {
+        if (this.completed) {
+            return
         }
 
-        if (StringUtils.isNotBlank(line)) {
+        if (!line.isNullOrEmpty()) {
             if (line.contains("@level") && line.contains("@message") &&
-                    line.contains("@module") && line.contains("@timestamp")) {
-                MessageView view = JSON.parseObject(line, MessageView.class);
+                line.contains("@module") && line.contains("@timestamp")
+            ) {
+                val view = JSON.parseObject(line, MessageView::class.java)
+                if (view != null) {
+                    if (MessageLevel.ERROR == view.level) {
+                        hasErr = true
 
-                if (MessageLevel.ERROR.equals(view.getLevel())) {
-                    // TODO: 2023/10/7 处理错误信息
-                    String message = view.getMessage();
-                    Diagnostic diagnostic = view.getDiagnostic();
-                    if (diagnostic != null) {
-                        message = message + ". " + diagnostic.getDetail();
-                    }
+                        var message = view.message
+                        val diagnostic = view.diagnostic
 
-                    hasErr = true;
-                    errorBuilder.append(message.trim()).append("\n");
+                        if (!message.isNullOrBlank()) {
+                            if (diagnostic != null) {
+                                message = message + ". " + diagnostic.detail
+                            }
 
-                } else if (MessageLevel.INFO.equals(view.getLevel())) {
-                    if (MessageType.CHANGE_SUMMARY.equals(view.getType())) {
-                        ChangeSummary summary = view.getChangeSummary();
-                        if (summary != null) {
-                            log.info("获取 Terraform plan 命令的执行计划详情");
-                            this.changeSummary = summary;
+                            errorBuilder.append(message.trim()).append("\n")
+                        }
+                    } else if (MessageLevel.INFO == view.level) {
+                        if (MessageType.CHANGE_SUMMARY == view.type) {
+                            val summary = view.changeSummary
+                            if (summary != null) {
+                                log.info("获取 Terraform plan 命令的执行计划详情")
+                                this.changeSummary = summary
+                            }
                         }
                     }
                 }
             } else if (line.contains("format_version") && line.contains("terraform_version") &&
-                    line.contains("planned_values") && line.contains("configuration")) {
+                line.contains("planned_values") && line.contains("configuration")
+            ) {
                 // 解析 tfplan 的 json 格式数据
-                Plan plan = JSON.parseObject(line, Plan.class);
+                val plan = JSON.parseObject(line, Plan::class.java)
                 if (plan != null) {
-                    log.info("执行 Terraform plan 命令并生成执行计划成功");
-                    completed = true;
-                    planJson = line;
+                    log.info("执行 Terraform plan 命令并生成执行计划成功")
+                    this.completed = true
+                    planJson = line
                 }
             }
         }
     }
 
-    @Override
-    public void parseError(String line) {
-        hasErr = true;
-        if (StringUtils.isNotBlank(line)) {
-            errorBuilder.append(line.trim()).append("\n");
+    override fun parseError(line: String?) {
+        hasErr = true
+        if (!line.isNullOrEmpty()) {
+            errorBuilder.append(line.trim()).append("\n")
         }
     }
 }

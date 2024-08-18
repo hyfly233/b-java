@@ -1,79 +1,66 @@
-package com.hyfly.tf.actuator.entity.constants;
+package com.hyfly.tf.actuator.entity.constants
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
-import org.apache.commons.lang3.StringUtils;
-
-import java.util.LinkedList;
-import java.util.List;
-
-@Data
-@Accessors(chain = true)
-@NoArgsConstructor
-@AllArgsConstructor
-public class TfCommand {
-
-    public static final String _VAR = "-var=";
-
-    public static final String _PLUGIN_DIR = "-plugin-dir=";
-
+data class TfCommand(
     /**
      * 用于 ProcessActuator 是否按行解析
      */
-    private Boolean isLineParse;
-
+    var isLineParse: Boolean? = false,
     /**
      * 基础命令, 例如: terraform init
      */
-    private LinkedList<String> baseCommand;
-
+    var baseCommand: MutableList<String> = mutableListOf(),
     /**
      * 插件目录, 一般只给 terraform init 使用,例如: terraform init -plugin-dir=/path/to/plugin
      */
-    private String pluginDir;
-
+    var pluginDir: String? = null,
     /**
      * 变量, 例如: terraform plan -var="key=value"
      */
-    private List<String> variables;
+    var variables: MutableList<String>? = null
+) {
 
-    public TfCommand(Boolean isLineParse, LinkedList<String> baseCommand) {
-        this.isLineParse = isLineParse;
-        this.baseCommand = baseCommand;
+    companion object {
+        const val VAR = "-var="
+        const val PLUGIN_DIR = "-plugin-dir="
     }
 
-    public TfCommand appendVariable(String var) {
+    constructor(isLineParse: Boolean?, baseCommand: MutableList<String>) : this(isLineParse, baseCommand, null, null)
+
+    fun setPluginDir(pluginDir: String): TfCommand {
+        this.pluginDir = pluginDir
+        return this
+    }
+
+    fun appendVariable(variable: String): TfCommand {
         if (this.variables == null) {
-            this.variables = new LinkedList<>();
+            this.variables = mutableListOf()
         }
-        this.variables.add(var);
-        return this;
+        this.variables!!.add(variable)
+        return this
     }
 
-    public TfCommand appendVariables(LinkedList<String> vars) {
+    fun appendVariables(vars: List<String>): TfCommand {
         if (this.variables == null) {
-            this.variables = new LinkedList<>();
+            this.variables = mutableListOf()
         }
-        this.variables.addAll(vars);
-        return this;
+        this.variables!!.addAll(vars)
+        return this
     }
 
-    public String[] getCommand() {
-        LinkedList<String> command = new LinkedList<>(this.baseCommand);
+    fun getCommand(): MutableList<String> {
+        val command = this.baseCommand
 
-        if (StringUtils.isNotBlank(this.pluginDir)) {
-            command.add(_PLUGIN_DIR + this.pluginDir);
+        if (!this.pluginDir.isNullOrBlank()) {
+            command.add(PLUGIN_DIR + this.pluginDir)
         }
 
-        List<String> vars = this.variables;
-        if (vars != null && !vars.isEmpty()) {
-            for (String var : vars) {
-                command.add(_VAR + var);
+        val vars = this.variables
+        if (!vars.isNullOrEmpty()) {
+            for (variable in vars) {
+                command.add(VAR + variable)
             }
         }
 
-        return command.toArray(new String[0]);
+        return command
     }
 }

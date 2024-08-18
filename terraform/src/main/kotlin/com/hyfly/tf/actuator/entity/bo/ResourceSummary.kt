@@ -1,19 +1,9 @@
-package com.hyfly.tf.actuator.entity.bo;
+package com.hyfly.tf.actuator.entity.bo
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+class ResourceSummary {
+    val resourceId: String? = null
 
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class ResourceSummary {
+    val resourceAlias: String? = null
 
-    private String resourceId;
-
-    private String resourceAlias;
-
-    private String resourceType;
+    val resourceType: String? = null
 }

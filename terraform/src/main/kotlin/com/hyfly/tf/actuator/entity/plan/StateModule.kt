@@ -1,9 +1,6 @@
-package com.hyfly.tf.actuator.entity.plan;
+package com.hyfly.tf.actuator.entity.plan
 
-import com.alibaba.fastjson2.annotation.JSONField;
-import lombok.Data;
-
-import java.util.List;
+import com.alibaba.fastjson2.annotation.JSONField
 
 /**
  * github.com/hashicorp/terraform-json
@@ -21,18 +18,16 @@ import java.util.List;
  * ChildModules []*StateModule `json:"child_modules,omitempty"`
  * }
  */
-@Data
-public class StateModule {
-
+class StateModule {
     // All resources or data sources within this module.
     @JSONField(name = "resources")
-    private List<StateResource> resources;
+    var resources: MutableList<StateResource>? = null
 
     // The absolute module address, omitted for the root module.
     @JSONField(name = "address")
-    private String address;
+    var address: String? = null
 
     // Any child modules within this module.
     @JSONField(name = "child_modules")
-    private List<StateModule> childModules;
+    var childModules: MutableList<StateModule>? = null
 }

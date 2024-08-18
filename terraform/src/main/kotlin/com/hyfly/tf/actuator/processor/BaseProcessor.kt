@@ -1,35 +1,27 @@
-package com.hyfly.tf.actuator.processor;
+package com.hyfly.tf.actuator.processor
 
-import lombok.Data;
+open class BaseProcessor : IProcessor {
 
-@Data
-public class BaseProcessor implements IProcessor {
+    var hasErr: Boolean = false
 
-    protected boolean hasErr = false;
+    var completed: Boolean = false
 
-    protected boolean completed = false;
+    val errorBuilder: StringBuilder = StringBuilder()
 
-    protected final StringBuilder errorBuilder;
-
-    BaseProcessor() {
-        errorBuilder = new StringBuilder();
+    override fun parse(line: String?) {
+        println(line)
     }
 
-    @Override
-    public void parse(String line) {
-        System.out.println(line);
+    override fun parseError(line: String?) {
+        println(line)
     }
 
-    @Override
-    public void parseError(String line) {
-        System.out.println(line);
-    }
-
-    @Override
-    public String getErrMsg() {
-        if (hasErr) {
-            return errorBuilder.toString().trim();
+    override val errMsg: String?
+        get() {
+            return if (hasErr) {
+                errorBuilder.toString().trim()
+            } else {
+                null
+            }
         }
-        return null;
-    }
 }
