@@ -20,6 +20,8 @@ class ValidateJsonProcessor : BaseProcessor() {
                 val view = JSON.parseObject(line, MessageView::class.java)
 
                 if (MessageLevel.ERROR == view.level) {
+                    hasErr = true
+
                     var message = view.message
 
                     if (!message.isNullOrEmpty()) {
@@ -28,7 +30,6 @@ class ValidateJsonProcessor : BaseProcessor() {
                             message = message + ". " + diagnostic.detail
                         }
 
-                        hasErr = true
                         errorBuilder.append(message.trim()).append("\n")
                     }
                 }

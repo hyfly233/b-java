@@ -16,6 +16,8 @@ class PlanJsonProcessor : BaseProcessor() {
     private val log = LoggerFactory.getLogger(PlanJsonProcessor::class.java)
 
     override fun parse(line: String?) {
+        log.debug(line)
+
         if (this.completed) {
             return
         }
@@ -64,6 +66,8 @@ class PlanJsonProcessor : BaseProcessor() {
     }
 
     override fun parseError(line: String?) {
+        log.error(line)
+
         hasErr = true
         if (!line.isNullOrEmpty()) {
             errorBuilder.append(line.trim()).append("\n")
