@@ -25,7 +25,7 @@ object TfCommandFactory {
 
     @JvmStatic
     fun createBaseApply(): TfCommand {
-        return TfCommand(false, LinkedList(mutableListOf("terraform", "apply", "-auto-approve", "-no-color", "-json")))
+        return TfCommand(true, LinkedList(mutableListOf("terraform", "apply", "-auto-approve", "-no-color", "-json")))
     }
 
     fun createBaseShow(): TfCommand {

@@ -35,6 +35,8 @@ class ProcessActuator {
 
                 val pb = ProcessBuilder(command)
                 pb.directory(File(workingDir!!))
+
+                // 启动进程
                 val process = pb.start()
 
                 if (tfCommand.isLineParse == true) {
@@ -68,10 +70,11 @@ class ProcessActuator {
                             t.parseError(line!!)
                         }
                     }
-                process.waitFor()
+
+                // 等待进程执行完成
+                val exitCode = process.waitFor()
                 if (t.hasErr) {
-                    log.error("执行命令出错: {}, 错误详情: {}", commandStr, t.errMsg)
-                    break
+                    log.error("执行 {} 出错,进程退出码: {},错误详情: {}", commandStr, exitCode, t.errMsg)
                 }
             }
         }

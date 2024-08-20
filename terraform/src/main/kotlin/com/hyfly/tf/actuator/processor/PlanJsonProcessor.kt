@@ -58,6 +58,8 @@ class PlanJsonProcessor : BaseProcessor() {
                 val plan = JSON.parseObject(line, Plan::class.java)
                 if (plan != null) {
                     log.info("执行 Terraform plan 命令并生成执行计划成功")
+
+                    // todo 判断标准不太准确
                     this.completed = true
                     planJson = line
                 }

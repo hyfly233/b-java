@@ -1,6 +1,7 @@
 package com.hyfly.tf.actuator.service.impl
 
 import cn.hutool.core.io.FileUtil
+import com.hyfly.tf.actuator.processor.ApplyJsonProcessor
 import com.hyfly.tf.actuator.processor.PlanJsonProcessor
 import com.hyfly.tf.actuator.processor.ProcessActuator
 import com.hyfly.tf.actuator.processor.TfCommandFactory
@@ -86,7 +87,7 @@ class TfPlanServiceImpl : ITfPlanService {
             TfCommandFactory.createBaseShowPlanJson()
         )
 
-        val processor = PlanJsonProcessor()
+        val processor = ApplyJsonProcessor()
 
         try {
             ProcessActuator.syncSeqExecution(commands, WORK_DIR, processor)
@@ -106,11 +107,6 @@ class TfPlanServiceImpl : ITfPlanService {
                 log.error("执行 terraform apply 失败，错误信息：{}", error)
             } else {
                 log.info("执行 terraform apply 成功")
-
-                val planJson = processor.planJson
-                if (StringUtils.isBlank(planJson)) {
-                    throw RuntimeException("planJson 为空")
-                }
 
                 // 设置 plan 摘要
                 val summary = processor.changeSummary
