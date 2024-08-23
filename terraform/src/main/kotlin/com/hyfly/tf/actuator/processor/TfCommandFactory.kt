@@ -6,7 +6,7 @@ import java.util.*
 object TfCommandFactory {
     @JvmStatic
     fun createBaseInit(): TfCommand {
-        return TfCommand(true, LinkedList(mutableListOf("terraform", "init", "-no-color")))
+        return TfCommand(false, LinkedList(mutableListOf("terraform", "init", "-no-color")))
     }
 
     @JvmStatic

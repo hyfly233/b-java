@@ -5,20 +5,18 @@ import com.hyfly.tf.actuator.entity.message.ChangeSummary
 import com.hyfly.tf.actuator.entity.message.MessageView
 import com.hyfly.tf.actuator.entity.message.constants.MessageLevel
 import com.hyfly.tf.actuator.entity.message.constants.MessageType
-import com.hyfly.tf.actuator.entity.plan.Plan
 import org.slf4j.LoggerFactory
 
 class PlanJsonProcessor : BaseProcessor() {
-    var planJson: String? = null
 
     var changeSummary: ChangeSummary? = null
 
     private val log = LoggerFactory.getLogger(PlanJsonProcessor::class.java)
 
     override fun parse(line: String?) {
-        log.debug(line)
+        log.debug("plan json parse --\n{}", line)
 
-        if (this.completed) {
+        if (this.exitCode == 0) {
             return
         }
 
@@ -51,24 +49,12 @@ class PlanJsonProcessor : BaseProcessor() {
                         }
                     }
                 }
-            } else if (line.contains("format_version") && line.contains("terraform_version") &&
-                line.contains("planned_values") && line.contains("configuration")
-            ) {
-                // 解析 tfplan 的 json 格式数据
-                val plan = JSON.parseObject(line, Plan::class.java)
-                if (plan != null) {
-                    log.info("执行 Terraform plan 命令并生成执行计划成功")
-
-                    // todo 判断标准不太准确
-                    this.completed = true
-                    planJson = line
-                }
             }
         }
     }
 
     override fun parseError(line: String?) {
-        log.error(line)
+        log.error("parseError --\n{}", line)
 
         hasErr = true
         if (!line.isNullOrEmpty()) {
