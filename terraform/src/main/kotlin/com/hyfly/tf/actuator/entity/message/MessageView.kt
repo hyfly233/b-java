@@ -7,26 +7,26 @@ class MessageView {
      * info, error
      */
     @JSONField(name = "@level")
-    val level: String? = null
+    var level: String? = null
 
     @JSONField(name = "@message")
-    val message: String? = null
+    var message: String? = null
 
     @JSONField(name = "@module")
-    val module: String? = null
+    var module: String? = null
 
     @JSONField(name = "@timestamp")
-    val timestamp: String? = null
+    var timestamp: String? = null
 
     /**
      * planned_change, change_summary
      */
     @JSONField(name = "type")
-    val type: String? = null
+    var type: String? = null
 
     @JSONField(name = "changes")
-    val changeSummary: ChangeSummary? = null
+    var changeSummary: ChangeSummary? = null
 
     @JSONField(name = "diagnostic")
-    val diagnostic: Diagnostic? = null
+    var diagnostic: Diagnostic? = null
 }

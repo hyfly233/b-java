@@ -50,10 +50,19 @@ class TfPlanServiceImpl : ITfPlanService {
 
                 ProcessActuator.syncSeqExecution(commands, WORK_DIR)
             } catch (e: Exception) {
-                log.debug("执行 terraform init/plan 失败", e)
+                log.error("执行 terraform init/plan/show 失败, 错误详情 {}", e.message)
 
-                planProcessor.hasErr = true
-                planProcessor.errorBuilder.append(e.message)
+               if (initProcessor.hasErr) {
+                    log.error("执行 terraform init 失败，错误信息：{}", initProcessor.errMsg)
+                }
+
+                if (planProcessor.hasErr) {
+                    log.error("执行 terraform plan 失败，错误信息：{}", planProcessor.errMsg)
+                }
+
+                if (showProcessor.hasErr) {
+                    log.error("执行 terraform show 失败，错误信息：{}", showProcessor.errMsg)
+                }
             }
 
 //            if (!processor.completed) {

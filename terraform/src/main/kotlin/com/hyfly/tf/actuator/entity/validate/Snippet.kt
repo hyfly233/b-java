@@ -4,11 +4,11 @@ import com.alibaba.fastjson2.annotation.JSONField
 
 class Snippet {
     @JSONField(name = "context")
-    val context: String? = null
+    var context: String? = null
 
     @JSONField(name = "code")
-    val code: String? = null
+    var code: String? = null
 
     @JSONField(name = "start_line")
-    val startLine: Int? = null
+    var startLine: Int? = null
 }

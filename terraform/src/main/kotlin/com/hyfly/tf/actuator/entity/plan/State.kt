@@ -35,13 +35,13 @@ class State {
     // StateFormatVersion constant in this package, or else am
     // unmarshal will be unstable.
     @JSONField(name = "format_version")
-    val formatVersion: String? = null
+    var formatVersion: String? = null
 
     // The Terraform version used to make the state.
     @JSONField(name = "terraform_version")
-    val terraformVersion: String? = null
+    var terraformVersion: String? = null
 
     // The values that make up the state.
     @JSONField(name = "values")
-    val values: StateValues? = null
+    var values: StateValues? = null
 }

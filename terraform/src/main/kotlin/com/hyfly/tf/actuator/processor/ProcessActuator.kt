@@ -83,9 +83,7 @@ class ProcessActuator {
                 t?.exitCode = exitCode
 
                 if (exitCode != 0) {
-                    val errMsg = "ProcessActuator 执行 $commandStr 异常结束, 进程退出码: $exitCode"
-                    log.error(errMsg)
-                    throw RuntimeException(errMsg)
+                    throw RuntimeException("ProcessActuator 执行 $commandStr 异常结束, 进程退出码: $exitCode")
                 } else {
                     log.info("ProcessActuator 执行 $commandStr 正常结束, 进程退出码: 0")
                 }

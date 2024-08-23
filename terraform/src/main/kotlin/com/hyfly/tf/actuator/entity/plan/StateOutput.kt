@@ -24,13 +24,13 @@ import com.alibaba.fastjson2.annotation.JSONField
 class StateOutput {
     // Whether or not the output was marked as sensitive.
     @JSONField(name = "sensitive")
-    val sensitive = false
+    var sensitive = false
 
     // The value of the output.
     @JSONField(name = "value")
-    val value: Any? = null
+    var value: Any? = null
 
     // The type of the output.
     @JSONField(name = "type")
-    val type: String? = null
+    var type: String? = null
 }

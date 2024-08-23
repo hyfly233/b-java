@@ -28,10 +28,10 @@ class Config {
     // the individual fields in ProviderConfig to discern actual data
     // about the provider such as name, alias, or defined module.
     @JSONField(name = "provider_config")
-    val providerConfigs: MutableMap<String, ProviderConfig>? = null
+    var providerConfigs: MutableMap<String, ProviderConfig>? = null
 
     // The root module in the configuration. Any child modules descend
     // off of here.
     @JSONField(name = "root_module")
-    val rootModule: ConfigModule? = null
+    var rootModule: ConfigModule? = null
 }

@@ -4,15 +4,15 @@ class PlanResourceField {
     /**
      * 字段名称
      */
-    val field: String? = null
+    var field: String? = null
 
     /**
      * 原始值
      */
-    val original: String? = null
+    var original: String? = null
 
     /**
      * 目标值
      */
-    val target: String? = null
+    var target: String? = null
 }

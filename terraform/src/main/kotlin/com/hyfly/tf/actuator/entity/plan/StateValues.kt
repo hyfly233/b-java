@@ -18,9 +18,9 @@ import com.alibaba.fastjson2.annotation.JSONField
 class StateValues {
     // The Outputs for this common state representation.
     @JSONField(name = "outputs")
-    val outputs: MutableMap<String, StateOutput>? = null
+    var outputs: MutableMap<String, StateOutput>? = null
 
     // The root module in this state representation.
     @JSONField(name = "root_module")
-    val rootModule: StateModule? = null
+    var rootModule: StateModule? = null
 }

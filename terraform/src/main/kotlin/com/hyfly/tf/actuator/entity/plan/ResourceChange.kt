@@ -64,31 +64,31 @@ import com.alibaba.fastjson2.annotation.JSONField
 class ResourceChange {
     // The absolute resource address.
     @JSONField(name = "address")
-    val address: String? = null
+    var address: String? = null
 
     // The absolute address that this resource instance had
     // at the conclusion of a previous plan.
     @JSONField(name = "previous_address")
-    val previousAddress: String? = null
+    var previousAddress: String? = null
 
     // The module portion of the above address. Omitted if the instance
     // is in the root module.
     @JSONField(name = "module_address")
-    val moduleAddress: String? = null
+    var moduleAddress: String? = null
 
     /**
      * The resource mode. todo link "data" "managed"
      */
     @JSONField(name = "mode")
-    val mode: String? = null
+    var mode: String? = null
 
     // The resource type, example: "aws_instance" for aws_instance.foo.
     @JSONField(name = "type")
-    val type: String? = null
+    var type: String? = null
 
     // The resource name, example: "foo" for aws_instance.foo.
     @JSONField(name = "name")
-    val name: String? = null
+    var name: String? = null
 
     // The instance key for any resources that have been created using
     // "count" or "for_each". If neither of these apply the key will be
@@ -96,7 +96,7 @@ class ResourceChange {
     //
     // This value can be either an integer (int) or a string.
     @JSONField(name = "index")
-    val index: Any? = null
+    var index: Any? = null
 
     // The name of the provider this resource belongs to. This allows
     // the provider to be interpreted unambiguously in the unusual
@@ -104,14 +104,14 @@ class ResourceChange {
     // does not start with its own name, such as the "googlebeta"
     // provider offering "google_compute_instance".
     @JSONField(name = "provider_name")
-    val providerName: String? = null
+    var providerName: String? = null
 
     // An identifier used during replacement operations, and can be
     // used to identify the exact resource being replaced in state.
     @JSONField(name = "deposed")
-    val deposedKey: String? = null
+    var deposedKey: String? = null
 
     // The data describing the change that will be made to this object.
     @JSONField(name = "change")
-    val change: Change? = null
+    var change: Change? = null
 }

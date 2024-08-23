@@ -76,19 +76,19 @@ import com.alibaba.fastjson2.annotation.JSONField
 class StateResource {
     // The absolute resource address.
     @JSONField(name = "address")
-    val address: String? = null
+    var address: String? = null
 
     // The resource mode. todo link "data" "managed"
     @JSONField(name = "mode")
-    val mode: String? = null
+    var mode: String? = null
 
     // The resource type, example: "aws_instance" for aws_instance.foo.
     @JSONField(name = "type")
-    val type: String? = null
+    var type: String? = null
 
     // The resource name, example: "foo" for aws_instance.foo.
     @JSONField(name = "name")
-    val name: String? = null
+    var name: String? = null
 
     // The instance key for any resources that have been created using
     // "count" or "for_each". If neither of these apply the key will be
@@ -96,7 +96,7 @@ class StateResource {
     //
     // This value can be either an integer (int) or a string.
     @JSONField(name = "index")
-    val index: Any? = null
+    var index: Any? = null
 
     // The name of the provider this resource belongs to. This allows
     // the provider to be interpreted unambiguously in the unusual
@@ -104,37 +104,37 @@ class StateResource {
     // does not start with its own name, such as the "googlebeta"
     // provider offering "google_compute_instance".
     @JSONField(name = "provider_name")
-    val providerName: String? = null
+    var providerName: String? = null
 
     // The version of the resource type schema the "values" property
     // conforms to.
     @JSONField(name = "schema_version")
-    val schemaVersion: Long? = null
+    var schemaVersion: Long? = null
 
     // The JSON representation of the attribute values of the resource,
     // whose structure depends on the resource type schema. Any unknown
     // values are omitted or set to null, making them indistinguishable
     // from absent values.
     @JSONField(name = "values")
-    val values: MutableMap<String, Any>? = null
+    var values: MutableMap<String, Any>? = null
 
     // The JSON representation of the sensitivity of the resource's
     // attribute values. Only attributes which are sensitive
     // are included in this structure.
     @JSONField(name = "sensitive_values")
-    val sensitiveValues: Any? = null
+    var sensitiveValues: Any? = null
 
     // The addresses of the resources that this resource depends on.
     @JSONField(name = "depends_on")
-    val dependsOn: MutableList<String>? = null
+    var dependsOn: MutableList<String>? = null
 
     // If true, the resource has been marked as tainted and will be
     // re-created on the next update.
     @JSONField(name = "tainted")
-    val tainted: Boolean? = null
+    var tainted: Boolean? = null
 
     // DeposedKey is set if the resource instance has been marked Deposed and
     // will be destroyed on the next apply.
     @JSONField(name = "deposed_key")
-    val deposedKey: String? = null
+    var deposedKey: String? = null
 }

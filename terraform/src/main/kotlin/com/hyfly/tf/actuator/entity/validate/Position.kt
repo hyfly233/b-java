@@ -4,8 +4,8 @@ import com.alibaba.fastjson2.annotation.JSONField
 
 class Position {
     @JSONField(name = "line")
-    val line: Int? = null
+    var line: Int? = null
 
     @JSONField(name = "column")
-    val column: Int? = null
+    var column: Int? = null
 }

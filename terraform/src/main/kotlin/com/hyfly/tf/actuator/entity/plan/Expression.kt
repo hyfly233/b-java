@@ -41,11 +41,11 @@ class Expression {
     // cannot be resolved at parse time, this field will contain
     // UnknownConstantValue.
     @JSONField(name = "constant_value")
-    val constantValue: Any? = null
+    var constantValue: Any? = null
 
     // If any part of the expression contained values that were not
     // able to be resolved at parse-time, this will contain a list of
     // the referenced identifiers that caused the value to be unknown.
     @JSONField(name = "references")
-    val references: MutableList<String>? = null
+    var references: MutableList<String>? = null
 }

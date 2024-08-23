@@ -27,13 +27,13 @@ import com.alibaba.fastjson2.annotation.JSONField
 class ConfigModule {
     // The outputs defined in the module.
     @JSONField(name = "outputs")
-    val outputs: MutableMap<String, Any>? = null
+    var outputs: MutableMap<String, Any>? = null
 
     // The resources defined in the module.
     @JSONField(name = "resources")
-    val resources: MutableList<Any>? = null
+    var resources: MutableList<Any>? = null
 
     // The variables defined in the module.
     @JSONField(name = "variables")
-    val variables: MutableMap<String, ConfigVariable>? = null
+    var variables: MutableMap<String, ConfigVariable>? = null
 }

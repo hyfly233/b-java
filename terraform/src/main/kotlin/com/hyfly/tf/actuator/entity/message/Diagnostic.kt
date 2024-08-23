@@ -10,20 +10,20 @@ class Diagnostic {
      * unknown, error, warning
      */
     @JSONField(name = "severity")
-    val severity: String? = null
+    var severity: String? = null
 
     @JSONField(name = "summary")
-    val summary: String? = null
+    var summary: String? = null
 
     @JSONField(name = "detail")
-    val detail: String? = null
+    var detail: String? = null
 
     @JSONField(name = "address")
-    val address: Any? = null
+    var address: Any? = null
 
     @JSONField(name = "range")
-    val range: Any? = null
+    var range: Any? = null
 
     @JSONField(name = "snippet")
-    val snippet: Any? = null
+    var snippet: Any? = null
 }

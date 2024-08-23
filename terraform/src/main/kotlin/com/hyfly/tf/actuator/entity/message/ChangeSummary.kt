@@ -4,22 +4,22 @@ import com.alibaba.fastjson2.annotation.JSONField
 
 class ChangeSummary {
     @JSONField(name = "add")
-    val addCount: Int? = null
+    var addCount: Int? = null
 
     @JSONField(name = "change")
-    val changeCount: Int? = null
+    var changeCount: Int? = null
 
     @JSONField(name = "remove")
-    val removeCount: Int? = null
+    var removeCount: Int? = null
 
     @JSONField(name = "import")
-    val importCount: Int? = null
+    var importCount: Int? = null
 
     /**
      * apply, plan, destroy
      */
     @JSONField(name = "operation")
-    val operation: String? = null
+    var operation: String? = null
 
     companion object {
         const val TYPE_SUFFIX: String = "_summary"

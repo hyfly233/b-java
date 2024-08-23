@@ -1,9 +1,9 @@
 package com.hyfly.tf.actuator.entity.bo
 
 class ResourceSummary {
-    val resourceId: String? = null
+    var resourceId: String? = null
 
-    val resourceAlias: String? = null
+    var resourceAlias: String? = null
 
-    val resourceType: String? = null
+    var resourceType: String? = null
 }

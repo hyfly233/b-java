@@ -20,13 +20,13 @@ import com.alibaba.fastjson2.annotation.JSONField
 class ConfigVariable {
     // The defined default value of the variable.
     @JSONField(name = "default")
-    val defaultValue: Any? = null
+    var defaultValue: Any? = null
 
     // The defined text description of the variable.
     @JSONField(name = "description")
-    val description: String? = null
+    var description: String? = null
 
     // Whether the variable is marked as sensitive
     @JSONField(name = "sensitive")
-    val sensitive = false
+    var sensitive = false
 }

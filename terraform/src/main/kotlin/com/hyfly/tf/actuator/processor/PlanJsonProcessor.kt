@@ -13,6 +13,10 @@ class PlanJsonProcessor : BaseProcessor() {
 
     private val log = LoggerFactory.getLogger(PlanJsonProcessor::class.java)
 
+    /**
+     * 解析 plan 命令的输出
+     * 包括执行计划细节、错误信息和执行计划概要等
+     */
     override fun parse(line: String?) {
         log.debug("plan json parse --\n{}", line)
 

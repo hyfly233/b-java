@@ -4,22 +4,22 @@ class PlanResourceItem {
     /**
      * 操作类型：add, change, destroy
      */
-    val action: String? = null
+    var action: String? = null
 
     /**
      * 资源模式：resource
      */
-    val model: String? = null
+    var model: String? = null
 
     /**
      * 资源名称
      */
-    val resourceName: String? = null
+    var resourceName: String? = null
 
     /**
      * 资源类型
      */
-    val resourceType: String? = null
+    var resourceType: String? = null
 
-    val planFields: MutableList<PlanResourceField>? = null
+    var planFields: MutableList<PlanResourceField>? = null
 }
