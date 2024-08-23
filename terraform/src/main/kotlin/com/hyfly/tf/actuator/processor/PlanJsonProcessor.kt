@@ -58,10 +58,10 @@ class PlanJsonProcessor : BaseProcessor() {
     }
 
     override fun parseError(line: String?) {
-        log.error("parseError --\n{}", line)
-
         hasErr = true
+
         if (!line.isNullOrEmpty()) {
+            log.error("parseError --\n{}", line)
             errorBuilder.append(line.trim()).append("\n")
         }
     }

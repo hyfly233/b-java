@@ -1,4 +1,4 @@
-package com.hyfly.tf.actuator.entity.constants
+package com.hyfly.tf.actuator.command
 
 import com.hyfly.tf.actuator.processor.BaseProcessor
 
@@ -22,7 +22,7 @@ data class TfCommand(
      * 变量, 例如: terraform plan -var="key=value"
      */
     var variables: MutableList<String>? = null,
-    
+
     /**
      * 对命令执行结果进行解析的处理器
      */

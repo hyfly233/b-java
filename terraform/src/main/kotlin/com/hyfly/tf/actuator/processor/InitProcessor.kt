@@ -10,10 +10,10 @@ class InitProcessor : BaseProcessor() {
      * terraform init 的错误信息可直接由 parseError 方法解析
      */
     override fun parseError(line: String?) {
-        log.error("init parseError --\n{}", line)
-
         hasErr = true
+
         if (!line.isNullOrEmpty()) {
+            log.error("init parseError --\n{}", line)
             errorBuilder.append(line.trim()).append("\n")
         }
     }

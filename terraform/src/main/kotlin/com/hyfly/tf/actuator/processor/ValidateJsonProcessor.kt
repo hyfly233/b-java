@@ -4,14 +4,15 @@ import com.alibaba.fastjson2.JSON
 import com.hyfly.tf.actuator.entity.message.MessageView
 import com.hyfly.tf.actuator.entity.message.constants.MessageLevel
 import com.hyfly.tf.actuator.entity.validate.Validate
+import org.slf4j.LoggerFactory
 
 class ValidateJsonProcessor : BaseProcessor() {
     private var validate: Validate? = null
 
+    private val log = LoggerFactory.getLogger(ValidateJsonProcessor::class.java)
+
     override fun parse(line: String?) {
-        if (completed) {
-            return
-        }
+        log.debug("validate json parse --\n{}", line)
 
         if (!line.isNullOrEmpty()) {
             if (line.contains("@level") && line.contains("@message") &&
@@ -38,7 +39,6 @@ class ValidateJsonProcessor : BaseProcessor() {
                     line,
                     Validate::class.java
                 )
-                completed = true
             }
         }
     }
@@ -46,6 +46,7 @@ class ValidateJsonProcessor : BaseProcessor() {
     override fun parseError(line: String?) {
         hasErr = true
         if (!line.isNullOrEmpty()) {
+            log.error("validate json parseError --\n{}", line)
             errorBuilder.append(line.trim()).append("\n")
         }
     }

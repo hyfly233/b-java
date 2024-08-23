@@ -8,9 +8,9 @@ interface ITfPlanService {
      * @param request 执行计划参数
      * @return 执行计划
      */
-    fun initAndPlan()
+    fun initAndPlan(): Map<String, Any>
 
-    fun apply()
+    fun apply(): Map<String, Any>
 
-    fun destroy()
+    fun destroy(): Map<String, Any>
 }

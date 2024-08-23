@@ -1,6 +1,8 @@
 package com.hyfly.tf.actuator.service.impl
 
 import cn.hutool.core.io.FileUtil
+import com.hyfly.tf.actuator.command.CommandActuator
+import com.hyfly.tf.actuator.command.TfCommandFactory
 import com.hyfly.tf.actuator.processor.*
 import com.hyfly.tf.actuator.service.ITfPlanService
 import org.slf4j.LoggerFactory
@@ -18,7 +20,7 @@ class TfPlanServiceImpl : ITfPlanService {
 
     private val log = LoggerFactory.getLogger(TfPlanServiceImpl::class.java)
 
-    override fun initAndPlan() {
+    override fun initAndPlan(): Map<String, Any> {
         // 创建工作目录
         val workspacePathFile = File(WORK_DIR)
         mkdir(workspacePathFile)
@@ -27,136 +29,172 @@ class TfPlanServiceImpl : ITfPlanService {
         val pluginPathFile = File(PLUGIN_DIR)
         if (!pluginPathFile.exists()) {
             log.error("插件目录不存在")
-            return
+            return mapOf("msg" to "插件目录不存在")
         } else {
             val path = pluginPathFile.absolutePath
             log.info("获取 terraform 插件路径结束，路径：{}", path)
 
-            val initProcessor = InitProcessor()
-            val planProcessor = PlanJsonProcessor()
-            val showProcessor = ShowTfPlanJsonProcessor()
+            var hasErrFlag = false
+            val eb: StringBuilder = StringBuilder()
+
+            // 初始化 processor
+            val ip = InitProcessor()
+            val pp = PlanJsonProcessor()
+            val sp = ShowTfPlanJsonProcessor()
 
             try {
                 // 执行 init、plan、show 命令
                 val commands = mutableListOf(
-                    TfCommandFactory.createBaseInit()
+                    TfCommandFactory.init()
                         .setPluginDir(path)
-                        .setProcessor(initProcessor),
-                    TfCommandFactory.createBasePlan2Json()
-                        .setProcessor(planProcessor),
-                    TfCommandFactory.createBaseShowPlanJson()
-                        .setProcessor(showProcessor)
+                        .setProcessor(ip),
+                    TfCommandFactory.plan2Json()
+                        .setProcessor(pp),
+                    TfCommandFactory.showPlanJson()
+                        .setProcessor(sp)
                 )
 
-                ProcessActuator.syncSeqExecution(commands, WORK_DIR)
+                CommandActuator.syncSeqExecution(commands, WORK_DIR)
             } catch (e: Exception) {
-                log.error("执行 terraform init/plan/show 失败, 错误详情 {}", e.message)
+                hasErrFlag = true
 
-               if (initProcessor.hasErr) {
-                    log.error("执行 terraform init 失败，错误信息：{}", initProcessor.errMsg)
+                log.error("\n执行 terraform init/plan/show 失败, 错误详情 \n{}", e.message)
+
+                if (ip.hasErr) {
+                    log.error("\n执行 terraform init 失败，错误信息：{}\n", ip.errMsg)
+                    eb.append(ip.errMsg)
                 }
 
-                if (planProcessor.hasErr) {
-                    log.error("执行 terraform plan 失败，错误信息：{}", planProcessor.errMsg)
+                if (pp.hasErr) {
+                    log.error("\n执行 terraform plan 失败，错误信息：\n{}", pp.errMsg)
+                    eb.append(pp.errMsg)
                 }
 
-                if (showProcessor.hasErr) {
-                    log.error("执行 terraform show 失败，错误信息：{}", showProcessor.errMsg)
+                if (sp.hasErr) {
+                    log.error("\n执行 terraform show 失败，错误信息：\n{}", sp.errMsg)
+                    eb.append(sp.errMsg)
                 }
             }
 
-//            if (!processor.completed) {
-//                val msg = "Terraform 命令未完成, 错误详情:" + processor.errMsg
-//                log.error(msg)
-//            } else {
-//                if (processor.hasErr) {
-//                    // plan 的异常处理
-//                    val error = processor.errMsg
-//                    log.error("执行 terraform plan 失败，错误信息：{}", error)
-//                } else {
-//                    log.info("执行 terraform plan 成功")
-//
-//                    val planJson = showProcessor.planJson
-//                    if (StringUtils.isBlank(planJson)) {
-//                        throw RuntimeException("planJson 为空")
-//                    }
-//
-//                    // 设置 plan 摘要
-//                    val summary = planProcessor.changeSummary
-//                    if (summary != null) {
-//                        log.info("\nTerraform plan 命令的执行的概要:\n {} \n -------", summary)
-//                    }
-//                }
-//            }
+            if (!hasErrFlag) {
+                log.info("执行 terraform init/plan/show 成功")
+
+                // 设置 plan 摘要
+                val summary = pp.changeSummary
+
+                val planJson = sp.planJson
+                if (planJson.isNullOrBlank()) {
+                    throw RuntimeException("terraform init/plan/show 生成的 planJson 为空")
+                }
+
+                return buildMap {
+                    put("msg", "执行 terraform init/plan/show 成功")
+                    summary?.let {
+                        put("summary", summary)
+                    }
+                    put("planJson", planJson)
+                }
+            } else {
+                return buildMap {
+                    put("msg", "执行 terraform init/plan/show 失败")
+                    put("error", eb.toString())
+                }
+            }
         }
     }
 
-    override fun apply() {
-//        // 执行 apply、show 命令
-//        val commands = mutableListOf(
-//            TfCommandFactory.createBaseApply(),
-//            TfCommandFactory.createBaseShowPlanJson()
-//        )
-//
-//        val processor = ApplyJsonProcessor()
-//
-//        try {
-//            ProcessActuator.syncSeqExecution(commands, WORK_DIR)
-//        } catch (e: Exception) {
-//            log.error("执行 terraform 失败", e)
-//            processor.hasErr = true
-//            processor.errorBuilder.append(e.message)
-//        }
-//
-//        if (!processor.completed) {
-//            val msg = "Terraform 命令未完成, 错误详情:" + processor.errMsg
-//            log.error(msg)
-//        } else {
-//            if (processor.hasErr) {
-//                // plan 的异常处理
-//                val error = processor.errMsg
-//                log.error("执行 terraform apply 失败，错误信息：{}", error)
-//            } else {
-//                log.info("执行 terraform apply 成功")
-//
-//                // 设置 plan 摘要
-//                val summary = processor.changeSummary
-//                if (summary != null) {
-//                    log.info("\nTerraform plan 命令的执行的概要:\n {} \n -------", summary)
-//                }
-//            }
-//        }
+    override fun apply(): Map<String, Any> {
+        var hasErrFlag = false
+        val eb: StringBuilder = StringBuilder()
+
+        // 初始化 processor
+        val ajp = ApplyJsonProcessor()
+        val sp = ShowTfPlanJsonProcessor()
+
+        try {
+            // 执行 apply、show 命令
+            val commands = mutableListOf(
+                TfCommandFactory.apply()
+                    .setProcessor(ajp),
+                TfCommandFactory.show()
+                    .setProcessor(sp)
+            )
+
+            CommandActuator.syncSeqExecution(commands, WORK_DIR)
+        } catch (e: Exception) {
+            hasErrFlag = true
+
+            log.error("\n执行 terraform apply/show 失败, 错误详情 \n{}", e.message)
+
+            if (ajp.hasErr) {
+                log.error("\n执行 terraform apply 失败，错误信息：\n{}", ajp.errMsg)
+                eb.append(ajp.errMsg)
+            }
+
+            if (sp.hasErr) {
+                log.error("\n执行 terraform show 失败，错误信息：\n{}", sp.errMsg)
+                eb.append(sp.errMsg)
+            }
+        }
+
+        if (!hasErrFlag) {
+            return buildMap {
+                put("msg", "执行 terraform apply/show 成功")
+                put("error", eb.toString())
+            }
+        } else {
+            return buildMap {
+                put("msg", "执行 terraform apply/show 失败")
+                put("error", eb.toString())
+            }
+        }
     }
 
-    override fun destroy() {
-//        // 执行 destroy、show 命令
-//        val commands = mutableListOf(
-//            TfCommandFactory.createBaseDestroy(),
-//            TfCommandFactory.createBaseShowPlanJson()
-//        )
-//
-//        val processor = PlanJsonProcessor()
-//
-//        try {
-//            ProcessActuator.syncSeqExecution(commands, WORK_DIR)
-//        } catch (e: Exception) {
-//            log.error("执行 terraform 失败", e)
-//            processor.hasErr = true
-//            processor.errorBuilder.append(e.message)
-//        }
-//
-//        if (!processor.completed) {
-//            val msg = "Terraform 命令未完成, 错误详情:" + processor.errMsg
-//            log.error(msg)
-//        } else {
-//            if (processor.hasErr) {
-//                // plan 的异常处理
-//                val error = processor.errMsg
-//                log.error("执行 terraform apply 失败，错误信息：{}", error)
-//            } else {
-//                log.info("执行 terraform apply 成功")
-//            }
-//        }
+    override fun destroy(): Map<String, Any> {
+        var hasErrFlag = false
+        val eb: StringBuilder = StringBuilder()
+
+        // 初始化 processor
+        val djp = DestroyJsonProcessor()
+        val sp = ShowTfPlanJsonProcessor()
+
+        try {
+            // 执行 destroy、show 命令
+            val commands = mutableListOf(
+                TfCommandFactory.destroy()
+                    .setProcessor(djp),
+                TfCommandFactory.show()
+                    .setProcessor(sp)
+            )
+
+            CommandActuator.syncSeqExecution(commands, WORK_DIR)
+        } catch (e: Exception) {
+            hasErrFlag = true
+
+            log.error("\n执行 terraform destroy/show 失败, 错误详情 \n{}", e.message)
+
+            if (djp.hasErr) {
+                log.error("\n执行 terraform destroy 失败，错误信息：\n{}", djp.errMsg)
+                eb.append(djp.errMsg)
+            }
+
+            if (sp.hasErr) {
+                log.error("\n执行 terraform show 失败，错误信息：\n{}", sp.errMsg)
+                eb.append(sp.errMsg)
+            }
+        }
+
+        if (!hasErrFlag) {
+            return buildMap {
+                put("msg", "执行 terraform destroy/show 成功")
+                put("error", eb.toString())
+            }
+        } else {
+            return buildMap {
+                put("msg", "执行 terraform destroy/show 失败")
+                put("error", eb.toString())
+            }
+        }
     }
 
     private fun mkdir(pathFile: File?) {

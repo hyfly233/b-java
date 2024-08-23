@@ -20,11 +20,6 @@ open class BaseProcessor : IProcessor {
     var hasErr: Boolean = false
 
     /**
-     * 是否完成
-     */
-    var completed: Boolean = false
-
-    /**
      *  错误信息
      */
     val errorBuilder: StringBuilder = StringBuilder()

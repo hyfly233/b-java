@@ -1,17 +1,16 @@
-package com.hyfly.tf.actuator.processor
+package com.hyfly.tf.actuator.command
 
-import com.hyfly.tf.actuator.entity.constants.TfCommand
 import org.slf4j.LoggerFactory
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.nio.charset.StandardCharsets
 
-class ProcessActuator {
+class CommandActuator {
 
     companion object {
         private const val TMP_WORKING_DIR = "./tmp"
 
-        private val log = LoggerFactory.getLogger(ProcessActuator::class.java)
+        private val log = LoggerFactory.getLogger(CommandActuator::class.java)
 
         @JvmStatic
         @Throws(RuntimeException::class)

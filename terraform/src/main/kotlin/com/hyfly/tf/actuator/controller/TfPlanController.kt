@@ -12,17 +12,17 @@ class TfPlanController(
 ) {
 
     @PostMapping("/initAndPlan")
-    private fun initAndPlan() {
-        tfPlanService.initAndPlan()
+    fun initAndPlan(): Map<String, Any> {
+        return tfPlanService.initAndPlan()
     }
 
     @PostMapping("/apply")
-    private fun apply() {
-        tfPlanService.apply()
+    fun apply(): Map<String, Any> {
+        return tfPlanService.apply()
     }
 
     @PostMapping("/destroy")
-    private fun destroy() {
-        tfPlanService.destroy()
+    fun destroy(): Map<String, Any> {
+        return tfPlanService.destroy()
     }
 }

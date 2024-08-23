@@ -6,14 +6,14 @@ import com.hyfly.tf.actuator.entity.message.MessageView
 import com.hyfly.tf.actuator.entity.message.constants.MessageLevel
 import org.slf4j.LoggerFactory
 
-class ApplyJsonProcessor : BaseProcessor() {
+class DestroyJsonProcessor : BaseProcessor() {
 
     var changeSummary: ChangeSummary? = null
 
-    private val log = LoggerFactory.getLogger(ApplyJsonProcessor::class.java)
+    private val log = LoggerFactory.getLogger(DestroyJsonProcessor::class.java)
 
     override fun parse(line: String?) {
-        log.debug("apply json parse --\n{}", line)
+        log.debug("destroy json parse --\n{}", line)
 
         if (!line.isNullOrEmpty()) {
             if (line.contains("@level") && line.contains("@message") &&
@@ -45,7 +45,7 @@ class ApplyJsonProcessor : BaseProcessor() {
         hasErr = true
 
         if (!line.isNullOrEmpty()) {
-            log.error("apply json parseError --\n{}", line)
+            log.error("destroy json parseError --\n{}", line)
             errorBuilder.append(line.trim()).append("\n")
         }
     }
