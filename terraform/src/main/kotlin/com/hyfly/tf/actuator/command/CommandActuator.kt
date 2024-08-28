@@ -31,10 +31,11 @@ class CommandActuator {
                 if (command.isEmpty()) {
                     break
                 }
+
                 val t = tfCommand.processor
 
                 val commandStr = command.joinToString(" ")
-                log.info("ProcessActuator 开始执行命令: {}", commandStr)
+                log.info("CommandActuator 开始执行命令: {}", commandStr)
 
                 val pb = ProcessBuilder(command)
                 pb.directory(File(workingDir))
@@ -82,9 +83,9 @@ class CommandActuator {
                 t?.exitCode = exitCode
 
                 if (exitCode != 0) {
-                    throw RuntimeException("ProcessActuator 执行 $commandStr 异常结束, 进程退出码: $exitCode")
+                    throw RuntimeException("CommandActuator 执行 $commandStr 异常结束, 进程退出码: $exitCode")
                 } else {
-                    log.info("ProcessActuator 执行 $commandStr 正常结束, 进程退出码: 0")
+                    log.info("CommandActuator 执行 $commandStr 正常结束, 进程退出码: 0")
                 }
             }
         }

@@ -16,9 +16,13 @@ class ApplyJsonProcessor : BaseProcessor() {
         log.debug("apply json parse --\n{}", line)
 
         if (!line.isNullOrEmpty()) {
-            if (line.contains("@level") && line.contains("@message") &&
+            if (line.contains("hook")) {
+                // 处理 log 信息
+
+            } else if (line.contains("@level") && line.contains("@message") &&
                 line.contains("@module") && line.contains("@timestamp")
             ) {
+                // 处理 message 信息
                 val view = JSON.parseObject(line, MessageView::class.java)
 
                 if (view != null) {

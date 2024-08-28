@@ -61,7 +61,7 @@ class PlanJsonProcessor : BaseProcessor() {
         hasErr = true
 
         if (!line.isNullOrEmpty()) {
-            log.error("parseError --\n{}", line)
+            log.error("plan json parseError --\n{}", line)
             errorBuilder.append(line.trim()).append("\n")
         }
     }
