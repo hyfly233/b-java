@@ -39,6 +39,23 @@ class ValidateJsonProcessor : BaseProcessor() {
                     line,
                     Validate::class.java
                 )
+
+                validate?.let {
+                    if (it.errorCount != null && it.errorCount!! > 0) {
+                        hasErr = true
+
+                        validate!!.diagnostics?.forEach { diagnostic ->
+                            diagnostic.snippet?.let { snippet ->
+                                errorBuilder.append(snippet.context)
+                            }
+
+                            errorBuilder.append(diagnostic.summary)
+                                .append(" ")
+                                .append(diagnostic.detail)
+                                .append("\n")
+                        }
+                    }
+                }
             }
         }
     }
