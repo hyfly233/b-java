@@ -10,9 +10,9 @@ import com.hyfly.tf.generate.entity.req.tfj.ComputeInstanceReq
 import com.hyfly.tf.generate.entity.req.tfj.ComputeVolumeAttachReq
 import com.hyfly.tf.generate.entity.req.tfj.SecurityGroupReq
 import com.hyfly.tf.generate.entity.req.tfj.VolumeReq
-import com.hyfly.tf.generate.service.ITfjBoValidateService
 import com.hyfly.tf.generate.service.ITfGenerateService
 import com.hyfly.tf.generate.service.ITfHandleService
+import com.hyfly.tf.generate.service.ITfjBoValidateService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Lazy
 import org.springframework.stereotype.Service
@@ -22,7 +22,7 @@ import kotlin.random.Random
 class TfGenerateServiceImpl : ITfGenerateService {
 
     @Autowired
-    private lateinit var TfHandle: ITfHandleService
+    private lateinit var tfHandle: ITfHandleService
 
     @Lazy
     @Autowired
@@ -50,7 +50,21 @@ class TfGenerateServiceImpl : ITfGenerateService {
             if (processedResourceMap == null) {
                 processedResourceMap = HashMap(it)
             } else {
-                processedResourceMap?.putAll(it)
+                val relationSet = it.entries
+                relationSet.forEach { entry ->
+                    val type = entry.key
+                    val value = entry.value
+
+                    val o = processedResourceMap!!.get(type)
+
+                    if (o != null) {
+                        val alias2ResourceMap = o as MutableMap<String, Any>
+                        // todo
+                        alias2ResourceMap.putAll(value)
+                    } else {
+                        processedResourceMap!![type] = value
+                    }
+                }
             }
         }
 
@@ -99,11 +113,11 @@ class TfGenerateServiceImpl : ITfGenerateService {
                     var processedParams: JSONObject? = null
 
                     if (paramsClazz is ComputeInstanceReq) {
-                        processedParams = TfHandle.handleParamsComputeInstance(paramsClazz)
+                        processedParams = tfHandle.handleParamsComputeInstance(paramsClazz)
                     } else if (paramsClazz is SecurityGroupReq) {
-                        processedParams = TfHandle.handleParamsSecurityGroup(resourceParams)
+                        processedParams = tfHandle.handleParamsSecurityGroup(resourceParams)
                     } else if (paramsClazz is VolumeReq) {
-                        processedParams = TfHandle.handleParamsVolume(paramsClazz)
+                        processedParams = tfHandle.handleParamsVolume(paramsClazz)
                     }
 
                     if (processedParams == null) {
@@ -201,7 +215,7 @@ class TfGenerateServiceImpl : ITfGenerateService {
 
                     if (relationEnum.clazz == ComputeVolumeAttachReq::class.java) {
                         // 给关联关系设值
-                        processedParams = TfHandle.handleParamsComputeVolumeAttach(
+                        processedParams = tfHandle.handleParamsComputeVolumeAttach(
                             tenantId,
                             targetType,
                             sourceType,
@@ -213,7 +227,7 @@ class TfGenerateServiceImpl : ITfGenerateService {
                     // eg2: 云主机与安全组的绑定关系，需要将安全组的 id 传入云主机的 security_groups 参数中
                     if (relationEnum == TfRelationEnum.COMPUTE_SECURITY_GROUP_ATTACH) {
                         processedParams =
-                            TfHandle.handleComputeSecurityGroupAttach(sourceResource, targetType, targetAlias)
+                            tfHandle.handleComputeSecurityGroupAttach(sourceResource, targetType, targetAlias)
 
                         // 替换原有的 params
                         sourceResource.params = processedParams
