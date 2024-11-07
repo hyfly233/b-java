@@ -29,4 +29,23 @@ class MessageView {
 
     @JSONField(name = "diagnostic")
     var diagnostic: Diagnostic? = null
+
+    fun validate(): Boolean {
+        if (level.isNullOrBlank()) return false
+        if (message.isNullOrBlank()) return false
+        if (module.isNullOrBlank()) return false
+        if (timestamp.isNullOrBlank()) return false
+        if (type.isNullOrBlank()) return false
+        return true
+    }
+
+    fun handleError(): String {
+        val errors = mutableListOf<String>()
+        if (level.isNullOrBlank()) errors.add("Invalid level")
+        if (message.isNullOrBlank()) errors.add("Invalid message")
+        if (module.isNullOrBlank()) errors.add("Invalid module")
+        if (timestamp.isNullOrBlank()) errors.add("Invalid timestamp")
+        if (type.isNullOrBlank()) errors.add("Invalid type")
+        return errors.joinToString(", ")
+    }
 }
