@@ -39,6 +39,14 @@ class ApplyJsonProcessor : BaseProcessor() {
 
                             errorBuilder.append(message.trim()).append("\n")
                         }
+                    } else if (MessageLevel.INFO == view.level) {
+                        if (view.type == "change_summary") {
+                            val summary = view.changeSummary
+                            if (summary != null) {
+                                log.info("获取 Terraform apply 命令的执行计划详情")
+                                this.changeSummary = summary
+                            }
+                        }
                     }
                 }
             }

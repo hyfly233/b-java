@@ -58,4 +58,12 @@ object MessageType {
     const val TEST_STATUS: String = "test_status"
 
     const val TEST_RETRY: String = "test_retry"
+
+    // Additional message types for completeness
+    const val INIT_START: String = "init_start"
+    const val INIT_COMPLETE: String = "init_complete"
+    const val PLAN_START: String = "plan_start"
+    const val PLAN_COMPLETE: String = "plan_complete"
+    const val DESTROY_START: String = "destroy_start"
+    const val DESTROY_COMPLETE: String = "destroy_complete"
 }
