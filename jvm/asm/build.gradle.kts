@@ -5,11 +5,6 @@ plugins {
 group = "com.hyfly"
 version = "1.0-SNAPSHOT"
 
-repositories {
-    mavenLocal()
-    mavenCentral()
-}
-
 dependencies {
     implementation("org.ow2.asm:asm:9.1")
     implementation("org.ow2.asm:asm-util:9.1")

@@ -5,10 +5,6 @@ plugins {
 group = "com.hyfly"
 version = "1.0-SNAPSHOT"
 
-repositories {
-    mavenCentral()
-}
-
 dependencies {
     // kafka
     implementation("org.springframework.kafka:spring-kafka")
