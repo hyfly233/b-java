@@ -9,7 +9,7 @@ import java.io.FileOutputStream;
 
 public class Generator {
     public static void main(String[] args) throws Exception {
-        ClassReader cr = new ClassReader("com/hyfly/asm01/TargetClass");
+        ClassReader cr = new ClassReader("com/hyfly/asm/test01/TargetClass");
 
         ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
 
@@ -20,7 +20,7 @@ public class Generator {
         byte[] data = cw.toByteArray();
 
         // 输出到文件
-        File file = new File("/Users/flyhy/workspace/jvm-test/asm/target/classes/com/hyfly/asm01/TargetClass.class");
+        File file = new File("/Users/flyhy/workspace/jvm-test/asm/target/classes/com/hyfly/asm/test01/TargetClass.class");
 
         FileOutputStream fileOutputStream = new FileOutputStream(file);
         fileOutputStream.write(data);
