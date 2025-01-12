@@ -2,16 +2,13 @@ package com.hyfly.dolphinscheduler.sdk.datasource;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.weaksloth.dolphins.common.PageInfo;
-import com.github.weaksloth.dolphins.core.AbstractOperator;
-import com.github.weaksloth.dolphins.core.DolphinException;
-import com.github.weaksloth.dolphins.datasource.DataSourceCreateParam;
-import com.github.weaksloth.dolphins.datasource.DataSourceQueryResp;
-import com.github.weaksloth.dolphins.datasource.DataSourceUpdateParam;
-import com.github.weaksloth.dolphins.remote.DolphinsRestTemplate;
-import com.github.weaksloth.dolphins.remote.HttpRestResult;
-import com.github.weaksloth.dolphins.remote.Query;
-import com.github.weaksloth.dolphins.util.JacksonUtils;
+import com.hyfly.dolphinscheduler.sdk.common.PageInfo;
+import com.hyfly.dolphinscheduler.sdk.core.AbstractOperator;
+import com.hyfly.dolphinscheduler.sdk.core.DolphinException;
+import com.hyfly.dolphinscheduler.sdk.remote.DolphinsRestTemplate;
+import com.hyfly.dolphinscheduler.sdk.remote.HttpRestResult;
+import com.hyfly.dolphinscheduler.sdk.remote.Query;
+import com.hyfly.dolphinscheduler.sdk.util.JacksonUtils;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
@@ -84,7 +81,7 @@ public class DataSourceOperator extends AbstractOperator {
    *
    * @return {@link List <DataSourceQueryResp>}
    */
-  public List<com.github.weaksloth.dolphins.datasource.DataSourceQueryResp> list(String dsName) {
+  public List<com.hyfly.dolphinscheduler.sdk.datasource.DataSourceQueryResp> list(String dsName) {
     String url = dolphinAddress + "/datasources";
     Query query =
         new Query()
