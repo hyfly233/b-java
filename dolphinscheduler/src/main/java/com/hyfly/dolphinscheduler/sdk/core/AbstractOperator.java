@@ -1,7 +1,7 @@
 package com.hyfly.dolphinscheduler.sdk.core;
 
-import com.github.weaksloth.dolphins.remote.DolphinsRestTemplate;
-import com.github.weaksloth.dolphins.remote.Header;
+import com.hyfly.dolphinscheduler.sdk.remote.DolphinsRestTemplate;
+import com.hyfly.dolphinscheduler.sdk.remote.Header;
 
 public abstract class AbstractOperator {
 
