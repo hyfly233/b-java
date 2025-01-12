@@ -1,14 +1,14 @@
 package com.hyfly.dolphinscheduler.sdk.core;
 
-import com.github.weaksloth.dolphins.datasource.DataSourceOperator;
-import com.github.weaksloth.dolphins.instance.ProcessInstanceOperator;
-import com.github.weaksloth.dolphins.process.ProcessOperator;
-import com.github.weaksloth.dolphins.project.ProjectOperator;
-import com.github.weaksloth.dolphins.remote.DolphinsRestTemplate;
-import com.github.weaksloth.dolphins.resource.ResourceOperator;
-import com.github.weaksloth.dolphins.schedule.ScheduleOperator;
-import com.github.weaksloth.dolphins.taskinstance.TaskInstanceOperator;
-import com.github.weaksloth.dolphins.tenant.TenantOperator;
+import com.hyfly.dolphinscheduler.sdk.datasource.DataSourceOperator;
+import com.hyfly.dolphinscheduler.sdk.instance.ProcessInstanceOperator;
+import com.hyfly.dolphinscheduler.sdk.process.ProcessOperator;
+import com.hyfly.dolphinscheduler.sdk.project.ProjectOperator;
+import com.hyfly.dolphinscheduler.sdk.remote.DolphinsRestTemplate;
+import com.hyfly.dolphinscheduler.sdk.resource.ResourceOperator;
+import com.hyfly.dolphinscheduler.sdk.schedule.ScheduleOperator;
+import com.hyfly.dolphinscheduler.sdk.taskinstance.TaskInstanceOperator;
+import com.hyfly.dolphinscheduler.sdk.tenant.TenantOperator;
 import lombok.extern.slf4j.Slf4j;
 
 /** dolphin scheduler client to operate dolphin scheduler */
