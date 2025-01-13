@@ -1,6 +1,8 @@
 package com.hyfly.dolphinscheduler.sdk.datasource;
 
-import com.fasterxml.jackson.core.type.TypeReference;
+
+import com.alibaba.fastjson2.JSONObject;
+import com.alibaba.fastjson2.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.hyfly.dolphinscheduler.sdk.common.PageInfo;
 import com.hyfly.dolphinscheduler.sdk.core.AbstractOperator;
@@ -8,7 +10,6 @@ import com.hyfly.dolphinscheduler.sdk.core.DolphinException;
 import com.hyfly.dolphinscheduler.sdk.remote.DolphinsRestTemplate;
 import com.hyfly.dolphinscheduler.sdk.remote.HttpRestResult;
 import com.hyfly.dolphinscheduler.sdk.remote.Query;
-import com.hyfly.dolphinscheduler.sdk.util.JacksonUtils;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
@@ -81,7 +82,7 @@ public class DataSourceOperator extends AbstractOperator {
    *
    * @return {@link List <DataSourceQueryResp>}
    */
-  public List<com.hyfly.dolphinscheduler.sdk.datasource.DataSourceQueryResp> list(String dsName) {
+  public PageInfo<DataSourceQueryResp> list(String dsName) {
     String url = dolphinAddress + "/datasources";
     Query query =
         new Query()
@@ -90,12 +91,13 @@ public class DataSourceOperator extends AbstractOperator {
             .addParam("searchVal", dsName)
             .build();
     try {
-      HttpRestResult<JsonNode> stringHttpRestResult =
+      HttpRestResult<JsonNode> restResult =
           dolphinsRestTemplate.get(url, getHeader(), query, JsonNode.class);
-      return JacksonUtils.parseObject(
-              stringHttpRestResult.getData().toString(),
-              new TypeReference<PageInfo<DataSourceQueryResp>>() {})
-          .getTotalList();
+
+      return JSONObject.parseObject(
+              restResult.getData().toString(),
+              new TypeReference<>() {
+              });
     } catch (Exception e) {
       throw new DolphinException("list dolphin scheduler datasource fail", e);
     }

@@ -13,7 +13,7 @@ dependencies {
     implementation("org.apache.httpcomponents:httpmime:4.5.13") {
         exclude(group = "commons-logging", module = "commons-logging")
     }
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.18.2")
+    implementation("com.alibaba.fastjson2:fastjson2:2.0.54")
     implementation("com.google.guava:guava:31.1-jre")
 
     testImplementation(platform("org.junit:junit-bom:5.10.0"))

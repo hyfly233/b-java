@@ -1,5 +1,6 @@
 package com.hyfly.dolphinscheduler.sdk.remote.request;
 
+import com.alibaba.fastjson2.JSONObject;
 import com.google.common.net.HttpHeaders;
 import com.google.common.net.MediaType;
 import com.hyfly.dolphinscheduler.sdk.remote.BaseHttpMethod;
@@ -7,7 +8,6 @@ import com.hyfly.dolphinscheduler.sdk.remote.Header;
 import com.hyfly.dolphinscheduler.sdk.remote.RequestHttpEntity;
 import com.hyfly.dolphinscheduler.sdk.remote.response.DefaultHttpClientResponse;
 import com.hyfly.dolphinscheduler.sdk.remote.response.HttpClientResponse;
-import com.hyfly.dolphinscheduler.sdk.util.JacksonUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpEntityEnclosingRequest;
 import org.apache.http.NameValuePair;
@@ -117,7 +117,7 @@ public class DefaultHttpClientRequest implements HttpClientRequest {
                 } else {
                     entity =
                             new StringEntity(
-                                    body instanceof String ? (String) body : JacksonUtils.toJSONString(body),
+                                    body instanceof String ? (String) body : JSONObject.toJSONString(body),
                                     contentType);
                 }
                 request.setEntity(entity);
