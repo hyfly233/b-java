@@ -31,9 +31,9 @@ public class DolphinsRestTemplate {
      * @return {@link HttpRestResult}
      * @throws Exception
      */
-    public <T> HttpRestResult<T> get(String url, Header header, com.hyfly.dolphinscheduler.sdk.remote.Query query, Class<T> responseType)
+    public <T> HttpRestResult<T> get(String url, Header header, Query query, Class<T> responseType)
             throws Exception {
-        return execute(url, HttpMethod.GET, new com.hyfly.dolphinscheduler.sdk.remote.RequestHttpEntity(header, query), responseType);
+        return execute(url, HttpMethod.GET, new RequestHttpEntity(header, query), responseType);
     }
 
     /**
@@ -47,8 +47,8 @@ public class DolphinsRestTemplate {
      */
     public <T> HttpRestResult<T> postForm(
             String url, Header header, Object body, Class<T> responseType) throws Exception {
-        com.hyfly.dolphinscheduler.sdk.remote.RequestHttpEntity requestHttpEntity =
-                new com.hyfly.dolphinscheduler.sdk.remote.RequestHttpEntity(header.setContentType(MediaType.FORM_DATA.toString()), body);
+        RequestHttpEntity requestHttpEntity =
+                new RequestHttpEntity(header.setContentType(MediaType.FORM_DATA.toString()), body);
         return execute(url, HttpMethod.POST, requestHttpEntity, responseType);
     }
 
@@ -63,9 +63,9 @@ public class DolphinsRestTemplate {
      * @throws Exception
      */
     public <T> HttpRestResult<T> postForm(
-            String url, Header header, com.hyfly.dolphinscheduler.sdk.remote.Query query, Object body, Class<T> responseType) throws Exception {
-        com.hyfly.dolphinscheduler.sdk.remote.RequestHttpEntity requestHttpEntity =
-                new com.hyfly.dolphinscheduler.sdk.remote.RequestHttpEntity(header.setContentType(MediaType.FORM_DATA.toString()), query, body);
+            String url, Header header, Query query, Object body, Class<T> responseType) throws Exception {
+        RequestHttpEntity requestHttpEntity =
+                new RequestHttpEntity(header.setContentType(MediaType.FORM_DATA.toString()), query, body);
         return execute(url, HttpMethod.POST, requestHttpEntity, responseType);
     }
 
@@ -82,8 +82,8 @@ public class DolphinsRestTemplate {
      */
     public <T> HttpRestResult<T> postFileForm(
             String url, Header header, Object body, Class<T> responseType) throws Exception {
-        com.hyfly.dolphinscheduler.sdk.remote.RequestHttpEntity requestHttpEntity =
-                new com.hyfly.dolphinscheduler.sdk.remote.RequestHttpEntity(
+        RequestHttpEntity requestHttpEntity =
+                new RequestHttpEntity(
                         header.setContentType(ContentType.MULTIPART_FORM_DATA.getMimeType()), body);
         return execute(url, HttpMethod.POST, requestHttpEntity, responseType);
     }
@@ -101,8 +101,8 @@ public class DolphinsRestTemplate {
      */
     public <T> HttpRestResult<T> postJson(
             String url, Header header, Object body, Class<T> responseType) throws Exception {
-        com.hyfly.dolphinscheduler.sdk.remote.RequestHttpEntity requestHttpEntity =
-                new com.hyfly.dolphinscheduler.sdk.remote.RequestHttpEntity(header.setContentType(MediaType.JSON_UTF_8.toString()), body);
+        RequestHttpEntity requestHttpEntity =
+                new RequestHttpEntity(header.setContentType(MediaType.JSON_UTF_8.toString()), body);
         return execute(url, HttpMethod.POST, requestHttpEntity, responseType);
     }
 
@@ -119,9 +119,9 @@ public class DolphinsRestTemplate {
      * @throws Exception
      */
     public <T> HttpRestResult<T> postJson(
-            String url, Header header, com.hyfly.dolphinscheduler.sdk.remote.Query query, Object body, Class<T> responseType) throws Exception {
-        com.hyfly.dolphinscheduler.sdk.remote.RequestHttpEntity requestHttpEntity =
-                new com.hyfly.dolphinscheduler.sdk.remote.RequestHttpEntity(header.setContentType(MediaType.JSON_UTF_8.toString()), query, body);
+            String url, Header header, Query query, Object body, Class<T> responseType) throws Exception {
+        RequestHttpEntity requestHttpEntity =
+                new RequestHttpEntity(header.setContentType(MediaType.JSON_UTF_8.toString()), query, body);
         return execute(url, HttpMethod.POST, requestHttpEntity, responseType);
     }
 
@@ -136,8 +136,8 @@ public class DolphinsRestTemplate {
      */
     public <T> HttpRestResult<T> putForm(
             String url, Header header, Object body, Class<T> responseType) throws Exception {
-        com.hyfly.dolphinscheduler.sdk.remote.RequestHttpEntity requestHttpEntity =
-                new com.hyfly.dolphinscheduler.sdk.remote.RequestHttpEntity(header.setContentType(MediaType.FORM_DATA.toString()), body);
+        RequestHttpEntity requestHttpEntity =
+                new RequestHttpEntity(header.setContentType(MediaType.FORM_DATA.toString()), body);
         return execute(url, HttpMethod.PUT, requestHttpEntity, responseType);
     }
 
@@ -152,9 +152,9 @@ public class DolphinsRestTemplate {
      * @throws Exception
      */
     public <T> HttpRestResult<T> putForm(
-            String url, Header header, com.hyfly.dolphinscheduler.sdk.remote.Query query, Object body, Class<T> responseType) throws Exception {
-        com.hyfly.dolphinscheduler.sdk.remote.RequestHttpEntity requestHttpEntity =
-                new com.hyfly.dolphinscheduler.sdk.remote.RequestHttpEntity(header.setContentType(MediaType.FORM_DATA.toString()), query, body);
+            String url, Header header, Query query, Object body, Class<T> responseType) throws Exception {
+        RequestHttpEntity requestHttpEntity =
+                new RequestHttpEntity(header.setContentType(MediaType.FORM_DATA.toString()), query, body);
         return execute(url, HttpMethod.PUT, requestHttpEntity, responseType);
     }
 
@@ -171,8 +171,8 @@ public class DolphinsRestTemplate {
      */
     public <T> HttpRestResult<T> putJson(
             String url, Header header, Object body, Class<T> responseType) throws Exception {
-        com.hyfly.dolphinscheduler.sdk.remote.RequestHttpEntity requestHttpEntity =
-                new com.hyfly.dolphinscheduler.sdk.remote.RequestHttpEntity(header.setContentType(MediaType.JSON_UTF_8.toString()), body);
+        RequestHttpEntity requestHttpEntity =
+                new RequestHttpEntity(header.setContentType(MediaType.JSON_UTF_8.toString()), body);
         return execute(url, HttpMethod.PUT, requestHttpEntity, responseType);
     }
 
@@ -189,9 +189,9 @@ public class DolphinsRestTemplate {
      * @throws Exception
      */
     public <T> HttpRestResult<T> putJson(
-            String url, Header header, com.hyfly.dolphinscheduler.sdk.remote.Query query, Object body, Class<T> responseType) throws Exception {
-        com.hyfly.dolphinscheduler.sdk.remote.RequestHttpEntity requestHttpEntity =
-                new com.hyfly.dolphinscheduler.sdk.remote.RequestHttpEntity(header.setContentType(MediaType.JSON_UTF_8.toString()), query, body);
+            String url, Header header, Query query, Object body, Class<T> responseType) throws Exception {
+        RequestHttpEntity requestHttpEntity =
+                new RequestHttpEntity(header.setContentType(MediaType.JSON_UTF_8.toString()), query, body);
         return execute(url, HttpMethod.PUT, requestHttpEntity, responseType);
     }
 
@@ -205,8 +205,8 @@ public class DolphinsRestTemplate {
      */
     public <T> HttpRestResult<T> delete(String url, Header header, Query query, Class<T> responseType)
             throws Exception {
-        com.hyfly.dolphinscheduler.sdk.remote.RequestHttpEntity requestHttpEntity =
-                new com.hyfly.dolphinscheduler.sdk.remote.RequestHttpEntity(header.setContentType(MediaType.FORM_DATA.toString()), query);
+        RequestHttpEntity requestHttpEntity =
+                new RequestHttpEntity(header.setContentType(MediaType.FORM_DATA.toString()), query);
         return execute(url, HttpMethod.DELETE, requestHttpEntity, responseType);
     }
 
