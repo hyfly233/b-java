@@ -1,44 +1,35 @@
 package seatunnel.mysql2console;
 
+import com.hyfly.dolphinscheduler.sdk.common.PageInfo;
 import com.hyfly.dolphinscheduler.sdk.core.DolphinClient;
-import com.hyfly.dolphinscheduler.sdk.remote.DolphinsRestTemplate;
-import com.hyfly.dolphinscheduler.sdk.remote.request.DefaultHttpClientRequest;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.protocol.RequestContent;
-import org.junit.jupiter.api.BeforeEach;
-import org.springframework.beans.factory.annotation.Value;
+import com.hyfly.dolphinscheduler.sdk.project.ProjectInfoResp;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * SeaTunnel 版本 2.3.3
  */
+@Slf4j
 @SpringBootTest
+@RunWith(SpringRunner.class)
 public class SeaTunnel233Test {
 
-    @Value("${ds.token}")
-    private String token;
+    private final DolphinClient dolphinClient;
 
-    @Value("${ds.address}")
-    private String dolphinAddress;
-
-    private DolphinClient dolphinClient;
-
-    public SeaTunnel233Test() {
-        DolphinsRestTemplate restTemplate = new DolphinsRestTemplate(
-                new DefaultHttpClientRequest(
-                        HttpClients.custom()
-                                .addInterceptorLast(new RequestContent(true))
-                                .setDefaultRequestConfig(RequestConfig.custom().build())
-                                .build(),
-                        RequestConfig.custom().build()));
-
-        dolphinClient = new DolphinClient(token, dolphinAddress, restTemplate);
+    public SeaTunnel233Test(DolphinClient dolphinClient) {
+        this.dolphinClient = dolphinClient;
     }
 
-    @BeforeEach
-    void getChartData() {
+    @Test
+    void listProject() {
+        PageInfo<ProjectInfoResp> page = dolphinClient.opsForProject().page(null, null, null);
 
+        if (page != null) {
+            log.info("page size : {}", page.getPageSize());
+            log.info("page data : {}", page.getTotalList());
+        }
     }
-
 }

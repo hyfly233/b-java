@@ -1,6 +1,7 @@
 package com.hyfly.dolphinscheduler.sdk.remote;
 
 import com.alibaba.fastjson2.JSONObject;
+import com.hyfly.dolphinscheduler.sdk.util.JacksonUtils;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -16,14 +17,14 @@ public class RequestHttpEntity {
 
     private Header header;
 
-    private com.hyfly.dolphinscheduler.sdk.remote.Query query;
+    private Query query;
 
     private Object body;
 
     public RequestHttpEntity() {
     }
 
-    public RequestHttpEntity(Header header, com.hyfly.dolphinscheduler.sdk.remote.Query query) {
+    public RequestHttpEntity(Header header, Query query) {
         this.header = header;
         this.query = query;
     }
@@ -68,6 +69,7 @@ public class RequestHttpEntity {
      */
     public String bodyToJson() {
         return JSONObject.toJSONString(this.body);
+//        return JacksonUtils.toJSONString(this.body);
     }
 
     /**
