@@ -29,9 +29,6 @@ subprojects {
     version = "1.0-SNAPSHOT"
 
     dependencies {
-        // junit
-        implementation("org.junit.platform:junit-platform-launcher")
-
         // spring
         implementation("org.springframework.boot:spring-boot-starter-web")
         implementation("org.springframework.boot:spring-boot-starter-tomcat")
@@ -40,6 +37,12 @@ subprojects {
         // lombok
         compileOnly("org.projectlombok:lombok")
         annotationProcessor("org.projectlombok:lombok")
+
+        // junit
+        testImplementation(platform("org.junit:junit-bom:5.10.0"))
+        testImplementation("org.junit.platform:junit-platform-launcher")
+        testImplementation("org.junit.jupiter:junit-jupiter")
+        testImplementation("org.junit.platform:junit-platform-runner")
     }
 
     dependencyManagement {
