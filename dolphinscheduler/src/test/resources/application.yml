@@ -1,0 +1,6 @@
+server:
+  port: 28880
+
+ds:
+  token: e11605d1048ee32137094e60420bb540
+  address: http://127.0.0.1:12345/dolphinscheduler
