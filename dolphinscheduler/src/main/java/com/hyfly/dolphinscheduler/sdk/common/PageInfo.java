@@ -1,5 +1,6 @@
 package com.hyfly.dolphinscheduler.sdk.common;
 
+import com.alibaba.fastjson2.annotation.JSONField;
 import lombok.Data;
 
 import java.util.List;
@@ -10,26 +11,37 @@ public class PageInfo<T> {
     /**
      * totalList
      */
+    @JSONField(name = "totalList")
     private List<T> totalList;
+
     /**
      * total
      */
+    @JSONField(name = "total")
     private Integer total = 0;
+
     /**
      * total Page
      */
+    @JSONField(name = "totalPage")
     private Integer totalPage;
+
     /**
      * page size
      */
+    @JSONField(name = "pageSize")
     private Integer pageSize = 20;
+
     /**
      * current page
      */
+    @JSONField(name = "currentPage")
     private Integer currentPage = 0;
+
     /**
-     * pageNo
+     * pageNo dolphin 返回值是从0开始的
      */
+    @JSONField(name = "pageNo")
     private Integer pageNo;
 
     public PageInfo() {
@@ -74,5 +86,17 @@ public class PageInfo<T> {
             this.currentPage = 1;
         }
         return currentPage;
+    }
+
+    /**
+     * dolphin 返回值是从0开始的
+     *
+     * @param pageNo dolphin 返回值 pageNo
+     */
+    public void setPageNo(Integer pageNo) {
+        if (pageNo == null) {
+            pageNo = 0;
+        }
+        this.pageNo = pageNo + 1;
     }
 }
