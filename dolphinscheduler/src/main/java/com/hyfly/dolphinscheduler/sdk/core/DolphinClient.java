@@ -2,7 +2,7 @@ package com.hyfly.dolphinscheduler.sdk.core;
 
 import com.hyfly.dolphinscheduler.sdk.datasource.DataSourceOperator;
 import com.hyfly.dolphinscheduler.sdk.instance.ProcessInstanceOperator;
-import com.hyfly.dolphinscheduler.sdk.process.ProcessOperator;
+import com.hyfly.dolphinscheduler.sdk.process.ProcessDefinitionOperator;
 import com.hyfly.dolphinscheduler.sdk.project.ProjectOperator;
 import com.hyfly.dolphinscheduler.sdk.remote.DolphinsRestTemplate;
 import com.hyfly.dolphinscheduler.sdk.resource.ResourceOperator;
@@ -21,7 +21,7 @@ public class DolphinClient {
 
   private DataSourceOperator dataSourceOperator;
   private ResourceOperator resourceOperator;
-  private ProcessOperator processOperator;
+  private ProcessDefinitionOperator processDefinitionOperator;
   private ProcessInstanceOperator processInstanceOperator;
   private ScheduleOperator scheduleOperator;
   private ProjectOperator projectOperator;
@@ -41,8 +41,8 @@ public class DolphinClient {
         new DataSourceOperator(this.dolphinAddress, this.token, this.dolphinsRestTemplate);
     this.resourceOperator =
         new ResourceOperator(this.dolphinAddress, this.token, this.dolphinsRestTemplate);
-    this.processOperator =
-        new ProcessOperator(this.dolphinAddress, this.token, this.dolphinsRestTemplate);
+    this.processDefinitionOperator =
+        new ProcessDefinitionOperator(this.dolphinAddress, this.token, this.dolphinsRestTemplate);
     this.processInstanceOperator =
         new ProcessInstanceOperator(this.dolphinAddress, this.token, this.dolphinsRestTemplate);
     this.scheduleOperator =
@@ -63,8 +63,8 @@ public class DolphinClient {
     return this.resourceOperator;
   }
 
-  public ProcessOperator opsForProcess() {
-    return this.processOperator;
+  public ProcessDefinitionOperator opsForProcessDefinition() {
+    return this.processDefinitionOperator;
   }
 
   public ProcessInstanceOperator opsForProcessInst() {

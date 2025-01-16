@@ -16,9 +16,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Slf4j
-public class ProcessOperator extends AbstractOperator {
+public class ProcessDefinitionOperator extends AbstractOperator {
 
-    public ProcessOperator(
+    public ProcessDefinitionOperator(
             String dolphinAddress, String token, DolphinsRestTemplate dolphinsRestTemplate) {
         super(dolphinAddress, token, dolphinsRestTemplate);
     }

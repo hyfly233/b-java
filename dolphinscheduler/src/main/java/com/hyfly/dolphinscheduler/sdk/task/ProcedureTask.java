@@ -26,7 +26,7 @@ public class ProcedureTask extends AbstractTask {
     /**
      * resource list
      */
-    private List<TaskResource> resourceList = Collections.emptyList();
+    private List<ResourceInfo> resourceList = Collections.emptyList();
 
     private List<Parameter> localParams = Collections.emptyList();
 
