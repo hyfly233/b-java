@@ -11,9 +11,9 @@ import java.util.List;
 /**
  * reference: org.apache.dolphinscheduler.plugin.task.datax.DataxParameters
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
 @Accessors(chain = true)
+@EqualsAndHashCode(callSuper = true)
 public class DataxTask extends AbstractTask {
 
     /**
