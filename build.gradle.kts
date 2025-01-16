@@ -36,6 +36,7 @@ subprojects {
 
         // lombok
         compileOnly("org.projectlombok:lombok")
+        testCompileOnly("org.projectlombok:lombok")
         annotationProcessor("org.projectlombok:lombok")
 
         // junit
