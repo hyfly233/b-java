@@ -17,7 +17,7 @@ import java.util.List;
 public class SparkTask extends AbstractTask {
 
     private String appName;
-    private TaskResource mainJar;
+    private ResourceInfo mainJar;
     private String mainClass;
     private String mainArgs;
 
@@ -57,7 +57,7 @@ public class SparkTask extends AbstractTask {
 
     private List<Parameter> localParams = Collections.emptyList();
 
-    private List<TaskResource> resourceList = Collections.emptyList();
+    private List<ResourceInfo> resourceList = Collections.emptyList();
 
     public static SparkTask newV2Instance() {
         return new SparkTask().setSparkVersion("SPARK2");
