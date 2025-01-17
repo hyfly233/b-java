@@ -52,7 +52,7 @@ public class TaskDefinition {
 
     private String delayTime = "0";
 
-    private Integer environmentCode = -1;
+    private Long environmentCode = -1L;
 
     private String taskExecuteType;
 
