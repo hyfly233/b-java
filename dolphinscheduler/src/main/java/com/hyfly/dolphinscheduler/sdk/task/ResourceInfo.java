@@ -7,16 +7,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * used by shell,python,spark,flink.... task
+ * org.apache.dolphinscheduler.plugin.task.api.model.ResourceInfo
+ * <p>
+ *  used by shell,python,spark,flink.... task
  *
  * <p>used when define task
  */
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class TaskResource {
+@AllArgsConstructor
+public class ResourceInfo {
 
-    private Long id;
+    private String resourceName;
 
     /**
      * must rewrite,then {@link RequestHttpEntity#bodyToMap()} can transfer object to json string

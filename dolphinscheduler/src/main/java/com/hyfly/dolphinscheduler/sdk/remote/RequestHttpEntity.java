@@ -1,7 +1,6 @@
 package com.hyfly.dolphinscheduler.sdk.remote;
 
 import com.alibaba.fastjson2.JSONObject;
-import com.hyfly.dolphinscheduler.sdk.util.JacksonUtils;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -69,7 +68,6 @@ public class RequestHttpEntity {
      */
     public String bodyToJson() {
         return JSONObject.toJSONString(this.body);
-//        return JacksonUtils.toJSONString(this.body);
     }
 
     /**
