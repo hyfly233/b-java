@@ -19,7 +19,7 @@ public class ProcessDefinitionServiceImpl implements IProcessDefinitionService {
 
     @Override
     public PageInfo<ProcessDefineResp> list(Long projectCode) {
-        return dolphinClient.opsForProcess().page(projectCode, null, null, null);
+        return dolphinClient.opsForProcessDefinition().page(projectCode, null, null, null);
     }
 
     @Override
