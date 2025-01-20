@@ -1,5 +1,6 @@
 package com.hyfly.dolphinscheduler.sdk.process;
 
+import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.alibaba.fastjson2.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -12,7 +13,9 @@ import com.hyfly.dolphinscheduler.sdk.remote.HttpRestResult;
 import com.hyfly.dolphinscheduler.sdk.remote.Query;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
