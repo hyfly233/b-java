@@ -28,6 +28,8 @@ public class SeatunnelTask extends AbstractTask {
      */
     private List<ResourceInfo> resourceList;
 
+    private String deployMode;
+
     @Override
     public String getTaskType() {
         return "SEATUNNEL";

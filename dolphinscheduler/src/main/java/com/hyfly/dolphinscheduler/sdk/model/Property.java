@@ -3,6 +3,7 @@ package com.hyfly.dolphinscheduler.sdk.model;
 import com.hyfly.dolphinscheduler.sdk.enums.DataType;
 import com.hyfly.dolphinscheduler.sdk.enums.Direct;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -12,6 +13,7 @@ import java.util.Objects;
  * org.apache.dolphinscheduler.plugin.task.api.model.Property
  */
 @Data
+@Accessors(chain = true)
 public class Property implements Serializable {
 
     @Serial
