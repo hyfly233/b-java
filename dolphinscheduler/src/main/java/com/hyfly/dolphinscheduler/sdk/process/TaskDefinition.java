@@ -50,6 +50,9 @@ public class TaskDefinition {
 
     private Integer timeout = 0;
 
+    /**
+     * 延迟时间 分钟
+     */
     private String delayTime = "0";
 
     private Long environmentCode = -1L;
