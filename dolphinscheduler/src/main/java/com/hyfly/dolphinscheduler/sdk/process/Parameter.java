@@ -7,7 +7,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 /**
+ * org.apache.dolphinscheduler.plugin.task.api.model.Property
  * task parameter or global parameter <br>
  *
  * <p><a
@@ -18,8 +22,14 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class Parameter {
+public class Parameter implements Serializable {
 
+    @Serial
+    private static final long serialVersionUID = -1L;
+
+    /**
+     * key
+     */
     private String prop;
 
     private String value;
