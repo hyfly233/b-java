@@ -7,15 +7,10 @@ import lombok.experimental.Accessors;
 import java.util.List;
 
 /**
- * dolphin scheduler define process param
- *
- * <p>dolphin scheduler use post form type to create process,so in fact every attribute is string
- * type
- *
- * <p>but in order to develop easier,we use TaskLocation,TaskDefinition,TaskRelation object,and
- * rewrite toString method
- *
- * <p>so that,when begin to send request,we will transfer this object to json string
+ * org.apache.dolphinscheduler.api.controller.TaskDefinitionController::createTaskDefinition
+ * org.apache.dolphinscheduler.api.controller.TaskDefinitionController::createTaskBindsWorkFlow
+ * <p>
+ * org.apache.dolphinscheduler.dao.entity.TaskDefinition
  */
 @Data
 @Accessors(chain = true)
