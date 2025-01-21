@@ -52,7 +52,7 @@ public class Parameter implements Serializable {
     public static Parameter getGlobal() {
         Parameter parameter = new Parameter();
         parameter.setDirect("IN");
-        parameter.setProp("VARCHAR");
+        parameter.setType("VARCHAR");
         return parameter;
     }
 
