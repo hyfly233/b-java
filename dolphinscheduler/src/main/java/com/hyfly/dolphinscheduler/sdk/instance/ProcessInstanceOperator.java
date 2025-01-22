@@ -4,6 +4,7 @@ import com.alibaba.fastjson2.JSONObject;
 import com.alibaba.fastjson2.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.hyfly.dolphinscheduler.sdk.common.PageInfo;
+import com.hyfly.dolphinscheduler.sdk.constants.CommandType;
 import com.hyfly.dolphinscheduler.sdk.core.AbstractOperator;
 import com.hyfly.dolphinscheduler.sdk.core.DolphinClientConstant;
 import com.hyfly.dolphinscheduler.sdk.core.DolphinException;
@@ -88,7 +89,7 @@ public class ProcessInstanceOperator extends AbstractOperator {
      */
     public Boolean reRun(Long projectCode, Long processInstanceId) {
         log.info("repeat run workflow instance,id:{}", processInstanceId);
-        return execute(projectCode, processInstanceId, DolphinClientConstant.ExecuteType.RE_RUN);
+        return execute(projectCode, processInstanceId, CommandType.REPEAT_RUNNING);
     }
 
     /**
@@ -100,7 +101,7 @@ public class ProcessInstanceOperator extends AbstractOperator {
      */
     public Boolean stop(Long projectCode, Long processInstanceId) {
         log.info("stop workflow instance,id:{}", processInstanceId);
-        return execute(projectCode, processInstanceId, DolphinClientConstant.ExecuteType.STOP);
+        return execute(projectCode, processInstanceId, CommandType.STOP);
     }
 
     /**
@@ -111,8 +112,13 @@ public class ProcessInstanceOperator extends AbstractOperator {
      * @return true for success,otherwise false
      */
     public Boolean pause(Long projectCode, Long processInstanceId) {
-        log.info("stop workflow instance,id:{}", processInstanceId);
-        return execute(projectCode, processInstanceId, DolphinClientConstant.ExecuteType.PAUSE);
+        log.info("pause workflow instance,id:{}", processInstanceId);
+        return execute(projectCode, processInstanceId, CommandType.PAUSE);
+    }
+
+    public Boolean reRunFailureTask(Long projectCode, Long processInstanceId) {
+        log.info("repeat run failure workflow instance,id:{}", processInstanceId);
+        return execute(projectCode, processInstanceId, CommandType.START_FAILURE_TASK_PROCESS);
     }
 
     /**
